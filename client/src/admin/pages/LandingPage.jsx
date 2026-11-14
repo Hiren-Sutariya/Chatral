@@ -27,10 +27,6 @@ export default function LandingPage() {
   const [heroActiveConvId, setHeroActiveConvId] = useState('chatral');
   const [showWidgetPill, setShowWidgetPill] = useState(true);
   const [isWidgetOpen, setIsWidgetOpen] = useState(false);
-  const [isWidgetMounted, setIsWidgetMounted] = useState(() => {
-    const host = document.querySelector('[id^="livechat-"]');
-    return !!(host && host.shadowRoot && host.shadowRoot.querySelector('.lc-launcher'));
-  });
 
   // Guarantee page loads at absolute top (0, 0) on fresh load / hard refresh and clear any dismissal flag
   useEffect(() => {
@@ -46,14 +42,12 @@ export default function LandingPage() {
     }
   }, []);
 
-  // Monitor whether Chatral live chat panel is open or mounted
+  // Monitor whether Chatral live chat panel is open
   useEffect(() => {
     const checkState = () => {
       const host = document.querySelector('[id^="livechat-"]');
       if (host && host.shadowRoot) {
-        const launcher = host.shadowRoot.querySelector('.lc-launcher');
-        setIsWidgetMounted(!!launcher);
-        const panel = host.shadowRoot.querySelector('.lc-panel');
+        const panel = host.shadowRoot.querySelector('.lc-panel:not(.closing)');
         setIsWidgetOpen(!!panel);
       }
     };
@@ -2399,28 +2393,40 @@ export default function LandingPage() {
                             fontWeight: 500,
                             flexShrink: 0,
                             transform: isOpen ? 'rotate(45deg)' : 'none',
-                            transition: 'all 0.2s ease',
+                            transition: 'all 0.28s cubic-bezier(0.16, 1, 0.3, 1)',
                           }}
                         >
                           +
                         </div>
                       </div>
 
-                      {isOpen && (
-                        <div
-                          style={{
-                            marginTop: 14,
-                            paddingTop: 14,
-                            borderTop: '1px solid #f1f2f5',
-                            color: '#5b5f6b',
-                            fontSize: 14,
-                            lineHeight: 1.65,
-                            fontWeight: 400,
-                          }}
-                        >
-                          {item.a}
+                      {/* Smooth animated accordion drawer using CSS Grid */}
+                      <div
+                        style={{
+                          display: 'grid',
+                          gridTemplateRows: isOpen ? '1fr' : '0fr',
+                          transition: 'grid-template-rows 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                        }}
+                      >
+                        <div style={{ overflow: 'hidden' }}>
+                          <div
+                            style={{
+                              marginTop: 14,
+                              paddingTop: 14,
+                              borderTop: '1px solid #f1f2f5',
+                              color: '#5b5f6b',
+                              fontSize: 14,
+                              lineHeight: 1.65,
+                              fontWeight: 400,
+                              opacity: isOpen ? 1 : 0,
+                              transform: isOpen ? 'translateY(0)' : 'translateY(-6px)',
+                              transition: 'opacity 0.28s ease, transform 0.28s ease',
+                            }}
+                          >
+                            {item.a}
+                          </div>
                         </div>
-                      )}
+                      </div>
                     </div>
                   );
                 })}
@@ -2893,7 +2899,7 @@ export default function LandingPage() {
       </footer>
 
       {/* Floating Callout Pill pointing to the Chatral Live Chat Widget */}
-      {showWidgetPill && !isWidgetOpen && isWidgetMounted && (
+      {showWidgetPill && !isWidgetOpen && (
         <div
           onClick={handleOpenLiveWidget}
           role="button"
@@ -3016,6 +3022,16 @@ export default function LandingPage() {
           to {
             opacity: 1;
             transform: translateY(0);
+          }
+        }
+        @keyframes pillFadeIn {
+          from {
+            opacity: 0;
+            transform: translateX(10px) scale(0.96);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0) scale(1);
           }
         }
         @keyframes chatralFloat {

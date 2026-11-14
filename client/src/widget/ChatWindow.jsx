@@ -245,10 +245,27 @@ export default function ChatWindow({
   ].filter(Boolean);
   const done = (msg) => { setPanel(null); setNotice(msg); };
 
+  const [rendered, setRendered] = useState(open);
+  const [closing, setClosing] = useState(false);
+
+  useEffect(() => {
+    if (open) {
+      setRendered(true);
+      setClosing(false);
+    } else if (rendered) {
+      setClosing(true);
+      const timer = setTimeout(() => {
+        setRendered(false);
+        setClosing(false);
+      }, 220);
+      return () => clearTimeout(timer);
+    }
+  }, [open]);
+
   return (
     <div className={cls} style={cssVars(cfg)}>
-      {open && (
-        <section className="lc-panel" role="dialog" aria-label={m.title}>
+      {rendered && (
+        <section className={`lc-panel ${closing ? 'closing' : ''}`} role="dialog" aria-label={m.title}>
           <header className="lc-head">
             {cfg.logoUrl ? <img className="logo" src={cfg.logoUrl} alt="" /> : <Avatar src={cfg.avatarUrl} name={cfg.agentName} />}
             <div className="lc-grow">

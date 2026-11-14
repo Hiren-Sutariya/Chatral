@@ -39,9 +39,11 @@ button, input, textarea, select { font-family: inherit; }
 .lc-launcher:focus-visible, .lc-btn:focus-visible, .lc-icon:focus-visible { outline: 3px solid #93c5fd; outline-offset: 2px; }
 .lc-badge { position: absolute; top: -4px; right: -4px; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px; background: #ef4444; color: #fff; font: 700 12px/22px system-ui; text-align: center; }
 .lc-panel { width: var(--lc-w); max-width: calc(100vw - 2 * var(--lc-x)); height: var(--lc-h); max-height: calc(100dvh - var(--lc-y) - var(--lc-launcher) - 32px); background: var(--lc-bg); border-radius: 16px; overflow: hidden;
-  box-shadow: 0 16px 48px rgba(15,23,42,.28); display: flex; flex-direction: column; margin-bottom: 14px; animation: lc-in .18s ease-out; }
+  box-shadow: 0 16px 48px rgba(15,23,42,.28); display: flex; flex-direction: column; margin-bottom: 14px; transform-origin: bottom right; animation: lc-in .26s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.lc-panel.closing { animation: lc-out .22s cubic-bezier(0.16, 1, 0.3, 1) forwards !important; pointer-events: none; }
 .lc-root.left .lc-panel { transform-origin: bottom left; }
-@keyframes lc-in { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
+@keyframes lc-in { from { opacity: 0; transform: translateY(14px) scale(.92); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes lc-out { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(14px) scale(.92); } }
 .lc-root.mobile-full .lc-panel { position: fixed; inset: 8px; width: auto; height: auto; max-height: none; border-radius: 16px; margin: 0; }
 .lc-root.mobile-full.open .lc-launcher { display: none; }
 @media (max-width: 640px) {
