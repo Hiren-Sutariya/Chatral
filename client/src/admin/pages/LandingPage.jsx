@@ -25,14 +25,22 @@ export default function LandingPage() {
   const [activeTab, setActiveTab] = useState('all');
   const [openFaq, setOpenFaq] = useState(null);
   const [heroActiveConvId, setHeroActiveConvId] = useState('chatral');
-  const [showWidgetPill, setShowWidgetPill] = useState(() => {
-    try {
-      return sessionStorage.getItem('chatral_pill_dismissed') !== '1';
-    } catch {
-      return true;
-    }
-  });
+  const [showWidgetPill, setShowWidgetPill] = useState(true);
   const [isWidgetOpen, setIsWidgetOpen] = useState(false);
+
+  // Guarantee page loads at absolute top (0, 0) on fresh load / hard refresh and clear any dismissal flag
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    try {
+      sessionStorage.removeItem('chatral_pill_dismissed');
+      localStorage.removeItem('chatral_pill_dismissed');
+    } catch {
+      // ignore
+    }
+  }, []);
 
   // Monitor whether Chatral live chat panel is open to hide the tooltip while chatting
   useEffect(() => {
@@ -60,11 +68,6 @@ export default function LandingPage() {
   const handleDismissPill = (e) => {
     e.stopPropagation();
     setShowWidgetPill(false);
-    try {
-      sessionStorage.setItem('chatral_pill_dismissed', '1');
-    } catch {
-      // ignore
-    }
   };
 
   const heroConversations = {
@@ -190,7 +193,7 @@ export default function LandingPage() {
         background: '#f7f8fa',
         color: '#0c0d10',
         minHeight: '100vh',
-        overflowX: 'hidden',
+        overflowX: 'clip',
         fontFamily: '"Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
         WebkitFontSmoothing: 'antialiased',
         MozOsxFontSmoothing: 'grayscale',
@@ -201,8 +204,8 @@ export default function LandingPage() {
         style={{
           position: 'sticky',
           top: 0,
-          zIndex: 100,
-          background: 'rgba(247, 248, 250, 0.9)',
+          zIndex: 1000,
+          background: 'rgba(247, 248, 250, 0.96)',
           backdropFilter: 'blur(14px)',
           WebkitBackdropFilter: 'blur(14px)',
           borderBottom: '1px solid #e6e7eb',
