@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
@@ -15,6 +15,128 @@ import {
 import { ChatralFullLogo } from '../components/BrandLogo.jsx';
 
 const { useBreakpoint } = Grid;
+
+// Elegant custom dropdown select for form (no native OS gray menu)
+function CustomSelect({ value, onChange, options }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  return (
+    <div ref={ref} style={{ position: 'relative', width: '100%' }}>
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        style={{
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '11px 14px',
+          borderRadius: 10,
+          border: open ? '1.5px solid #2563eb' : '1.5px solid #e2e8f0',
+          background: open ? '#ffffff' : '#f8fafc',
+          boxShadow: open ? '0 0 0 3px rgba(37, 99, 235, 0.12)' : 'none',
+          fontSize: 14,
+          fontFamily: 'inherit',
+          color: '#0f172a',
+          cursor: 'pointer',
+          textAlign: 'left',
+          transition: 'all 0.18s ease',
+        }}
+      >
+        <span style={{ fontWeight: 500 }}>{value}</span>
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#64748b"
+          strokeWidth="2.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          style={{
+            transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
+            transition: 'transform 0.2s ease',
+          }}
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </button>
+
+      {open && (
+        <div
+          style={{
+            position: 'absolute',
+            top: 'calc(100% + 6px)',
+            left: 0,
+            right: 0,
+            zIndex: 60,
+            background: '#ffffff',
+            border: '1px solid #e2e8f0',
+            borderRadius: 12,
+            boxShadow: '0 14px 34px -4px rgba(15, 23, 42, 0.14), 0 4px 12px rgba(0, 0, 0, 0.04)',
+            padding: 6,
+          }}
+        >
+          {options.map((opt) => {
+            const isSelected = opt === value;
+            return (
+              <div
+                key={opt}
+                onClick={() => {
+                  onChange(opt);
+                  setOpen(false);
+                }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '10px 12px',
+                  borderRadius: 8,
+                  fontSize: 13.5,
+                  fontWeight: isSelected ? 600 : 500,
+                  color: isSelected ? '#2563eb' : '#1e293b',
+                  background: isSelected ? '#eff6ff' : 'transparent',
+                  cursor: 'pointer',
+                  transition: 'background 0.12s ease, color 0.12s ease',
+                }}
+                onMouseEnter={(e) => {
+                  if (!isSelected) {
+                    e.currentTarget.style.background = '#f8fafc';
+                    e.currentTarget.style.color = '#2563eb';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isSelected) {
+                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.color = '#1e293b';
+                  }
+                }}
+              >
+                <span>{opt}</span>
+                {isSelected && (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
 
 // Slick kinetic character rolling text for navbar menu links & buttons (staggered roll-up, no box)
 function RollText({ text, secondaryColor }) {
@@ -66,14 +188,7 @@ export default function LandingPage() {
   const [isWidgetOpen, setIsWidgetOpen] = useState(false);
 
   // Contact Form state & submission handler
-  const [contactForm, setContactForm] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    company: '',
-    topic: 'Schedule a Live Demo',
-    message: '',
-  });
+  const [contactForm, setContactForm] = useState({ name: '', email: '', company: '', topic: 'Schedule a Live Demo', message: '' });
   const [contactSubmitted, setContactSubmitted] = useState(false);
   const [contactSubmitting, setContactSubmitting] = useState(false);
 
@@ -86,14 +201,7 @@ export default function LandingPage() {
     setTimeout(() => {
       setContactSubmitting(false);
       setContactSubmitted(true);
-      setContactForm({
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
-        topic: 'Schedule a Live Demo',
-        message: '',
-      });
+      setContactForm({ name: '', email: '', company: '', topic: 'Schedule a Live Demo', message: '' });
     }, 500);
   };
 
@@ -329,14 +437,17 @@ export default function LandingPage() {
             <ChatralFullLogo height={isMobile ? 32 : 38} dark={false} />
           </a>
 
-          {/* Center Nav Links: Features, How it works, Testimonials, FAQ, Pricing with Kinetic Text Roll (No Box) */}
+          {/* Center Nav Links: Features, How it works, Pricing, Testimonials, FAQ, Contact Us with Kinetic Text Roll (No Box) */}
           {!isMobile && (
-            <Flex gap={32} align="center">
+            <Flex gap={26} align="center">
               <a onClick={() => scrollTo('features')} className="nav-menu-link">
                 <RollText text="Features" secondaryColor="#2563eb" />
               </a>
               <a onClick={() => scrollTo('how-it-works')} className="nav-menu-link">
                 <RollText text="How it works" secondaryColor="#2563eb" />
+              </a>
+              <a onClick={() => scrollTo('pricing')} className="nav-menu-link">
+                <RollText text="Pricing" secondaryColor="#2563eb" />
               </a>
               <a onClick={() => scrollTo('testimonials')} className="nav-menu-link">
                 <RollText text="Testimonials" secondaryColor="#2563eb" />
@@ -344,8 +455,8 @@ export default function LandingPage() {
               <a onClick={() => scrollTo('faq')} className="nav-menu-link">
                 <RollText text="FAQ" secondaryColor="#2563eb" />
               </a>
-              <a onClick={() => scrollTo('pricing')} className="nav-menu-link">
-                <RollText text="Pricing" secondaryColor="#2563eb" />
+              <a onClick={() => scrollTo('contact')} className="nav-menu-link">
+                <RollText text="Contact us" secondaryColor="#2563eb" />
               </a>
             </Flex>
           )}
@@ -2130,6 +2241,214 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* 4. Pricing Plans (Relatik Exact Styling - 7-Day Free Trial + Starter Growth) */}
+      <section id="pricing" style={{ padding: isMobile ? '36px 16px' : '52px 24px', background: '#ffffff', borderTop: '1px solid #e6e7eb' }}>
+        <div style={{ maxWidth: 960, margin: '0 auto', textAlign: 'center' }}>
+          
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              padding: '4px 12px',
+              background: '#eaf2ff',
+              border: '1px solid #d3e4ff',
+              borderRadius: 999,
+              marginBottom: 12,
+            }}
+          >
+            <span style={{ color: '#2b7fff', fontSize: 11, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+              Pricing
+            </span>
+          </div>
+
+          <Typography.Title
+            level={2}
+            style={{
+              color: '#0c0d10',
+              fontSize: isMobile ? 26 : 38,
+              fontWeight: 800,
+              letterSpacing: '-0.025em',
+              margin: '0 0 12px',
+            }}
+          >
+            Simple, transparent pricing
+          </Typography.Title>
+          <Typography.Paragraph style={{ color: '#5b5f6b', fontSize: 15, maxWidth: 540, margin: '0 auto 36px' }}>
+            Get started with a full-access 7-day free trial. Upgrade anytime to keep conversations flowing.
+          </Typography.Paragraph>
+
+          {/* Billing Cycle + Currency Switcher */}
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 14, flexWrap: 'wrap', marginBottom: 44 }}>
+            <Segmented
+              options={[
+                { label: 'Monthly', value: 'monthly' },
+                { label: 'Annual (Save 25%)', value: 'annual' },
+              ]}
+              value={billingCycle}
+              onChange={setBillingCycle}
+              style={{
+                background: '#f1f2f5',
+                padding: 3,
+                borderRadius: 10,
+                color: '#0c0d10',
+                fontWeight: 600,
+                fontSize: 13,
+              }}
+            />
+
+            <Segmented
+              options={[
+                { label: '$ USD', value: 'USD' },
+                { label: '₹ INR', value: 'INR' },
+              ]}
+              value={currency}
+              onChange={setCurrency}
+              style={{
+                background: '#f1f2f5',
+                padding: 3,
+                borderRadius: 10,
+                color: '#0c0d10',
+                fontWeight: 600,
+                fontSize: 13,
+              }}
+            />
+          </div>
+
+          <Row gutter={[24, 24]} justify="center" align="stretch">
+            {/* 1. 7-Day Free Trial Plan */}
+            <Col xs={24} md={12} lg={10}>
+              <div
+                style={{
+                  background: '#ffffff',
+                  border: '1px solid #e6e7eb',
+                  borderRadius: 20,
+                  padding: '32px 28px',
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  textAlign: 'left',
+                  boxShadow: '0 1px 3px rgba(12, 13, 16, 0.02)',
+                  transition: 'border-color 0.2s ease',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#cbd5e1')}
+                onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#e6e7eb')}
+              >
+                <div style={{ fontWeight: 700, color: '#0c0d10', fontSize: 16 }}>7-Day Free Trial</div>
+                <div style={{ fontSize: 34, fontWeight: 800, color: '#0c0d10', margin: '12px 0 4px', letterSpacing: '-0.03em' }}>
+                  {currency === 'INR' ? '₹0' : '$0'}{' '}
+                  <span style={{ fontSize: 13, color: '#6b707c', fontWeight: 400 }}>/ 7 days free</span>
+                </div>
+                <div style={{ color: '#5b5f6b', fontSize: 13, marginBottom: 20, lineHeight: 1.5 }}>
+                  Full access to all features free for 7 days. Test on your website with zero risk.
+                </div>
+                <Divider style={{ borderColor: '#f1f2f5', margin: '0 0 18px' }} />
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 26, fontSize: 13, color: '#0c0d10' }}>
+                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> <b>Full Access for 7 Days</b></div>
+                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> 1 Active Store</div>
+                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Unlimited Live Chats</div>
+                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Automated Sales Triggers</div>
+                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Canned Replies & Shortcuts</div>
+                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Sound & Desktop Alerts</div>
+                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Standard Web Chat Widget</div>
+                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> "Powered by Chatral" Badge</div>
+                </div>
+                <button
+                  onClick={() => nav('/login?mode=signup')}
+                  className="btn-brand-secondary"
+                  style={{
+                    width: '100%',
+                    justifyContent: 'center',
+                    height: 44,
+                    borderRadius: 10,
+                    fontSize: 13.5,
+                    fontFamily: 'inherit',
+                  }}
+                >
+                  <RollText text="Start 7-Day Free Trial" secondaryColor="#1d4ed8" />
+                </button>
+                <div style={{ textAlign: 'center', fontSize: 11.5, color: '#9aa0ac', marginTop: 10 }}>
+                  No credit card required
+                </div>
+              </div>
+            </Col>
+
+            {/* 2. Starter Growth Plan (Starts at $5 / mo) */}
+            <Col xs={24} md={12} lg={10}>
+              <div
+                style={{
+                  background: '#ffffff',
+                  border: '2px solid #2b7fff',
+                  borderRadius: 20,
+                  padding: '32px 28px',
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  textAlign: 'left',
+                  position: 'relative',
+                  boxShadow: '0 12px 32px -8px rgba(43, 127, 255, 0.18)',
+                }}
+              >
+                <div style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)' }}>
+                  <span
+                    style={{
+                      background: '#2b7fff',
+                      color: '#ffffff',
+                      fontSize: 10.5,
+                      fontWeight: 700,
+                      padding: '3px 14px',
+                      borderRadius: 999,
+                      letterSpacing: '0.04em',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    Most Popular
+                  </span>
+                </div>
+                <div style={{ fontWeight: 700, color: '#2b7fff', fontSize: 16 }}>Starter Growth</div>
+                <div style={{ fontSize: 34, fontWeight: 800, color: '#0c0d10', margin: '12px 0 4px', letterSpacing: '-0.03em' }}>
+                  {currency === 'INR'
+                    ? (billingCycle === 'annual' ? '₹399' : '₹499')
+                    : (billingCycle === 'annual' ? '$5' : '$7')}{' '}
+                  <span style={{ fontSize: 13, color: '#6b707c', fontWeight: 400 }}>/ month</span>
+                </div>
+                <div style={{ color: '#5b5f6b', fontSize: 13, marginBottom: 20, lineHeight: 1.5 }}>
+                  Everything you need to turn visitors into buyers with multi-store and no branding.
+                </div>
+                <Divider style={{ borderColor: '#f1f2f5', margin: '0 0 18px' }} />
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 26, fontSize: 13, color: '#0c0d10' }}>
+                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> <b>3 Active Stores</b></div>
+                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Unlimited Live Chats</div>
+                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Automated Sales Triggers</div>
+                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Canned Replies & Shortcuts</div>
+                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Sound & Desktop Alerts</div>
+                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Shopify & E-commerce Integration</div>
+                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> <b>Remove "Powered by Chatral" Badge</b></div>
+                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Priority 24/7 Support</div>
+                </div>
+                <button
+                  onClick={() => nav('/login?mode=signup')}
+                  className="btn-brand-primary"
+                  style={{
+                    width: '100%',
+                    justifyContent: 'center',
+                    height: 44,
+                    borderRadius: 10,
+                    fontSize: 13.5,
+                    fontFamily: 'inherit',
+                  }}
+                >
+                  <RollText text="Start 7-Day Free Trial" />
+                </button>
+                <div style={{ textAlign: 'center', fontSize: 11.5, color: '#9aa0ac', marginTop: 10 }}>
+                  Includes 7-day free trial • Cancel anytime
+                </div>
+              </div>
+            </Col>
+          </Row>
+        </div>
+      </section>
+
       {/* 5. Testimonials (Exact Relatik Infinite Marquee Carousel from Image 2) */}
       <section id="testimonials" style={{ padding: isMobile ? '36px 0' : '52px 0', background: '#ffffff', borderTop: '1px solid #e6e7eb', overflow: 'hidden' }}>
         <div style={{ maxWidth: 1080, margin: '0 auto', textAlign: 'center', padding: '0 24px', marginBottom: 44 }}>
@@ -2605,215 +2924,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 8. Pricing Plans (Relatik Exact Styling - 7-Day Free Trial + Starter Growth) */}
-      <section id="pricing" style={{ padding: isMobile ? '36px 16px' : '52px 24px', background: '#ffffff', borderTop: '1px solid #e6e7eb' }}>
-        <div style={{ maxWidth: 960, margin: '0 auto', textAlign: 'center' }}>
-          
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-              padding: '4px 12px',
-              background: '#eaf2ff',
-              border: '1px solid #d3e4ff',
-              borderRadius: 999,
-              marginBottom: 12,
-            }}
-          >
-            <span style={{ color: '#2b7fff', fontSize: 11, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-              Pricing
-            </span>
-          </div>
-
-          <Typography.Title
-            level={2}
-            style={{
-              color: '#0c0d10',
-              fontSize: isMobile ? 26 : 38,
-              fontWeight: 800,
-              letterSpacing: '-0.025em',
-              margin: '0 0 12px',
-            }}
-          >
-            Simple, transparent pricing
-          </Typography.Title>
-          <Typography.Paragraph style={{ color: '#5b5f6b', fontSize: 15, maxWidth: 540, margin: '0 auto 36px' }}>
-            Get started with a full-access 7-day free trial. Upgrade anytime to keep conversations flowing.
-          </Typography.Paragraph>
-
-          {/* Billing Cycle + Currency Switcher */}
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 14, flexWrap: 'wrap', marginBottom: 44 }}>
-            <Segmented
-              options={[
-                { label: 'Monthly', value: 'monthly' },
-                { label: 'Annual (Save 25%)', value: 'annual' },
-              ]}
-              value={billingCycle}
-              onChange={setBillingCycle}
-              style={{
-                background: '#f1f2f5',
-                padding: 3,
-                borderRadius: 10,
-                color: '#0c0d10',
-                fontWeight: 600,
-                fontSize: 13,
-              }}
-            />
-
-            <Segmented
-              options={[
-                { label: '$ USD', value: 'USD' },
-                { label: '₹ INR', value: 'INR' },
-              ]}
-              value={currency}
-              onChange={setCurrency}
-              style={{
-                background: '#f1f2f5',
-                padding: 3,
-                borderRadius: 10,
-                color: '#0c0d10',
-                fontWeight: 600,
-                fontSize: 13,
-              }}
-            />
-          </div>
-
-          <Row gutter={[24, 24]} justify="center" align="stretch">
-            {/* 1. 7-Day Free Trial Plan */}
-            <Col xs={24} md={12} lg={10}>
-              <div
-                style={{
-                  background: '#ffffff',
-                  border: '1px solid #e6e7eb',
-                  borderRadius: 20,
-                  padding: '32px 28px',
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  textAlign: 'left',
-                  boxShadow: '0 1px 3px rgba(12, 13, 16, 0.02)',
-                  transition: 'border-color 0.2s ease',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#cbd5e1')}
-                onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#e6e7eb')}
-              >
-                <div style={{ fontWeight: 700, color: '#0c0d10', fontSize: 16 }}>7-Day Free Trial</div>
-                <div style={{ fontSize: 34, fontWeight: 800, color: '#0c0d10', margin: '12px 0 4px', letterSpacing: '-0.03em' }}>
-                  {currency === 'INR' ? '₹0' : '$0'}{' '}
-                  <span style={{ fontSize: 13, color: '#6b707c', fontWeight: 400 }}>/ 7 days free</span>
-                </div>
-                <div style={{ color: '#5b5f6b', fontSize: 13, marginBottom: 20, lineHeight: 1.5 }}>
-                  Full access to all features free for 7 days. Test on your website with zero risk.
-                </div>
-                <Divider style={{ borderColor: '#f1f2f5', margin: '0 0 18px' }} />
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 26, fontSize: 13, color: '#0c0d10' }}>
-                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> <b>Full Access for 7 Days</b></div>
-                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> 1 Active Store</div>
-                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Unlimited Live Chats</div>
-                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Automated Sales Triggers</div>
-                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Canned Replies & Shortcuts</div>
-                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Sound & Desktop Alerts</div>
-                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Standard Web Chat Widget</div>
-                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> "Powered by Chatral" Badge</div>
-                </div>
-                <button
-                  onClick={() => nav('/login?mode=signup')}
-                  className="btn-brand-secondary"
-                  style={{
-                    width: '100%',
-                    justifyContent: 'center',
-                    height: 44,
-                    borderRadius: 10,
-                    fontSize: 13.5,
-                    fontFamily: 'inherit',
-                  }}
-                >
-                  <RollText text="Start 7-Day Free Trial" secondaryColor="#1d4ed8" />
-                </button>
-                <div style={{ textAlign: 'center', fontSize: 11.5, color: '#9aa0ac', marginTop: 10 }}>
-                  No credit card required
-                </div>
-              </div>
-            </Col>
-
-            {/* 2. Starter Growth Plan (Starts at $5 / mo) */}
-            <Col xs={24} md={12} lg={10}>
-              <div
-                style={{
-                  background: '#ffffff',
-                  border: '2px solid #2b7fff',
-                  borderRadius: 20,
-                  padding: '32px 28px',
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  textAlign: 'left',
-                  position: 'relative',
-                  boxShadow: '0 12px 32px -8px rgba(43, 127, 255, 0.18)',
-                }}
-              >
-                <div style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)' }}>
-                  <span
-                    style={{
-                      background: '#2b7fff',
-                      color: '#ffffff',
-                      fontSize: 10.5,
-                      fontWeight: 700,
-                      padding: '3px 14px',
-                      borderRadius: 999,
-                      letterSpacing: '0.04em',
-                      textTransform: 'uppercase',
-                    }}
-                  >
-                    Most Popular
-                  </span>
-                </div>
-                <div style={{ fontWeight: 700, color: '#2b7fff', fontSize: 16 }}>Starter Growth</div>
-                <div style={{ fontSize: 34, fontWeight: 800, color: '#0c0d10', margin: '12px 0 4px', letterSpacing: '-0.03em' }}>
-                  {currency === 'INR'
-                    ? (billingCycle === 'annual' ? '₹399' : '₹499')
-                    : (billingCycle === 'annual' ? '$5' : '$7')}{' '}
-                  <span style={{ fontSize: 13, color: '#6b707c', fontWeight: 400 }}>/ month</span>
-                </div>
-                <div style={{ color: '#5b5f6b', fontSize: 13, marginBottom: 20, lineHeight: 1.5 }}>
-                  Everything you need to turn visitors into buyers with multi-store and no branding.
-                </div>
-                <Divider style={{ borderColor: '#f1f2f5', margin: '0 0 18px' }} />
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 26, fontSize: 13, color: '#0c0d10' }}>
-                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> <b>3 Active Stores</b></div>
-                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Unlimited Live Chats</div>
-                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Automated Sales Triggers</div>
-                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Canned Replies & Shortcuts</div>
-                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Sound & Desktop Alerts</div>
-                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Shopify & E-commerce Integration</div>
-                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> <b>Remove "Powered by Chatral" Badge</b></div>
-                  <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Priority 24/7 Support</div>
-                </div>
-                <button
-                  onClick={() => nav('/login?mode=signup')}
-                  className="btn-brand-primary"
-                  style={{
-                    width: '100%',
-                    justifyContent: 'center',
-                    height: 44,
-                    borderRadius: 10,
-                    fontSize: 13.5,
-                    fontFamily: 'inherit',
-                  }}
-                >
-                  <RollText text="Start 7-Day Free Trial" />
-                </button>
-                <div style={{ textAlign: 'center', fontSize: 11.5, color: '#9aa0ac', marginTop: 10 }}>
-                  Includes 7-day free trial • Cancel anytime
-                </div>
-              </div>
-            </Col>
-          </Row>
-        </div>
-      </section>
-
-      {/* 9. Contact Us Form Section - Clean Minimalist Info & Expanded Form Fields */}
+      {/* 7. Contact Us Form Section */}
       <section
         id="contact"
         style={{
@@ -2824,8 +2935,8 @@ export default function LandingPage() {
       >
         <div style={{ maxWidth: 1120, margin: '0 auto' }}>
           <Row gutter={[isMobile ? 32 : 56, 32]} align="top">
-            {/* Left Column: Context & Minimalist Direct Contacts (NO BOXES) */}
-            <Col xs={24} lg={10}>
+            {/* Left Column: Context, Reassurance & Direct Contacts */}
+            <Col xs={24} lg={11}>
               <div
                 style={{
                   display: 'inline-flex',
@@ -2835,12 +2946,12 @@ export default function LandingPage() {
                   background: '#eaf2ff',
                   border: '1px solid rgba(43, 127, 255, 0.2)',
                   borderRadius: 999,
-                  marginBottom: 16,
+                  marginBottom: 18,
                 }}
               >
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#2563eb' }} />
                 <span style={{ color: '#2563eb', fontSize: 11, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                  Contact Us
+                  Get in touch
                 </span>
               </div>
 
@@ -2848,128 +2959,74 @@ export default function LandingPage() {
                 level={2}
                 style={{
                   color: '#0c0d10',
-                  fontSize: isMobile ? 32 : 44,
+                  fontSize: isMobile ? 30 : 42,
                   fontWeight: 800,
                   letterSpacing: '-0.035em',
                   lineHeight: 1.15,
-                  margin: '0 0 12px',
+                  margin: '0 0 16px',
                 }}
               >
-                Let’s talk.
+                Let’s talk about growing your customer conversations.
               </Typography.Title>
 
               <Typography.Paragraph
                 style={{
                   color: '#5b5f6b',
-                  fontSize: isMobile ? 15 : 15.5,
-                  lineHeight: 1.55,
+                  fontSize: isMobile ? 15 : 16,
+                  lineHeight: 1.6,
                   margin: '0 0 32px',
                   fontWeight: 400,
-                  maxWidth: 380,
                 }}
               >
-                Have questions or need a custom plan? Reach out anytime — we reply in under 2 hours.
+                Have questions about custom plans, installation, or high-volume stores?
+                Send us a note and our team will get back to you within a few hours.
               </Typography.Paragraph>
 
-              {/* Direct Info List - Pure Minimalist Typography (No Boxes / No Borders) */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                  <div
-                    style={{
-                      width: 38,
-                      height: 38,
-                      borderRadius: 10,
-                      background: '#eff6ff',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#2563eb',
-                      fontSize: 16,
-                      flexShrink: 0,
-                    }}
-                  >
-                    ✉️
+              {/* Direct Info without emojis or boxed containers */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 22, marginTop: 12 }}>
+                <div>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>
+                    Email
                   </div>
-                  <div>
-                    <div style={{ fontSize: 11.5, fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                      Email
-                    </div>
-                    <a
-                      href="mailto:digiscaleinfotech@gmail.com"
-                      style={{ fontSize: 14.5, fontWeight: 600, color: '#0c0d10', textDecoration: 'none' }}
-                      onMouseEnter={(e) => (e.currentTarget.style.color = '#2563eb')}
-                      onMouseLeave={(e) => (e.currentTarget.style.color = '#0c0d10')}
-                    >
-                      digiscaleinfotech@gmail.com
-                    </a>
+                  <a
+                    href="mailto:digiscaleinfotech@gmail.com"
+                    style={{ fontSize: 16, fontWeight: 600, color: '#0f172a', textDecoration: 'none', transition: 'color 0.15s ease' }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = '#2563eb')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = '#0f172a')}
+                  >
+                    digiscaleinfotech@gmail.com
+                  </a>
+                </div>
+
+                <div>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>
+                    Response Time
+                  </div>
+                  <div style={{ fontSize: 15, fontWeight: 500, color: '#334155' }}>
+                    Average under 2 hours (Mon - Sat)
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                  <div
-                    style={{
-                      width: 38,
-                      height: 38,
-                      borderRadius: 10,
-                      background: '#eff6ff',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#2563eb',
-                      fontSize: 16,
-                      flexShrink: 0,
-                    }}
-                  >
-                    ⚡
+                <div>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#2563eb', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>
+                    Location
                   </div>
-                  <div>
-                    <div style={{ fontSize: 11.5, fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                      Response Time
-                    </div>
-                    <div style={{ fontSize: 14.5, fontWeight: 600, color: '#0c0d10' }}>
-                      Average under 2 hours (Mon - Sat)
-                    </div>
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                  <div
-                    style={{
-                      width: 38,
-                      height: 38,
-                      borderRadius: 10,
-                      background: '#eff6ff',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#2563eb',
-                      fontSize: 16,
-                      flexShrink: 0,
-                    }}
-                  >
-                    📍
-                  </div>
-                  <div>
-                    <div style={{ fontSize: 11.5, fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                      Location
-                    </div>
-                    <div style={{ fontSize: 14.5, fontWeight: 600, color: '#0c0d10' }}>
-                      Gujarat, India 🇮🇳
-                    </div>
+                  <div style={{ fontSize: 15, fontWeight: 500, color: '#334155' }}>
+                    Gujarat, India
                   </div>
                 </div>
               </div>
             </Col>
 
-            {/* Right Column: Clean, Interactive Contact Form Card with Expanded Fields */}
-            <Col xs={24} lg={14}>
+            {/* Right Column: Clean, Interactive Contact Form Card */}
+            <Col xs={24} lg={13}>
               <div
                 style={{
                   background: '#ffffff',
                   border: '1px solid #e2e8f0',
                   borderRadius: 24,
-                  padding: isMobile ? '28px 18px' : '38px 34px',
-                  boxShadow: '0 20px 48px -12px rgba(37, 99, 235, 0.08)',
+                  padding: isMobile ? '32px 20px' : '44px 38px',
+                  boxShadow: '0 20px 48px -12px rgba(37, 99, 235, 0.1)',
                   position: 'relative',
                 }}
               >
@@ -3007,46 +3064,45 @@ export default function LandingPage() {
                   </div>
                 ) : (
                   <form onSubmit={handleContactSubmit}>
-                    {/* Row 1: Full Name & Work Email */}
-                    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 16, marginBottom: 18 }}>
-                      <div>
-                        <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#334155', marginBottom: 6 }}>
-                          Full Name <span style={{ color: '#ef4444' }}>*</span>
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          placeholder="John Doe"
-                          value={contactForm.name}
-                          onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                          style={{
-                            width: '100%',
-                            padding: '11px 14px',
-                            borderRadius: 10,
-                            border: '1.5px solid #e2e8f0',
-                            background: '#f8fafc',
-                            fontSize: 14,
-                            fontFamily: 'inherit',
-                            outline: 'none',
-                            transition: 'all 0.18s ease',
-                            color: '#0f172a',
-                          }}
-                          onFocus={(e) => {
-                            e.target.style.background = '#ffffff';
-                            e.target.style.borderColor = '#2563eb';
-                            e.target.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.12)';
-                          }}
-                          onBlur={(e) => {
-                            e.target.style.background = '#f8fafc';
-                            e.target.style.borderColor = '#e2e8f0';
-                            e.target.style.boxShadow = 'none';
-                          }}
-                        />
-                      </div>
+                    <div style={{ marginBottom: 20 }}>
+                      <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#334155', marginBottom: 6 }}>
+                        Full Name <span style={{ color: '#ef4444' }}>*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="John Doe"
+                        value={contactForm.name}
+                        onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                        style={{
+                          width: '100%',
+                          padding: '11px 14px',
+                          borderRadius: 10,
+                          border: '1.5px solid #e2e8f0',
+                          background: '#f8fafc',
+                          fontSize: 14,
+                          fontFamily: 'inherit',
+                          outline: 'none',
+                          transition: 'all 0.18s ease',
+                          color: '#0f172a',
+                        }}
+                        onFocus={(e) => {
+                          e.target.style.background = '#ffffff';
+                          e.target.style.borderColor = '#2563eb';
+                          e.target.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.12)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.background = '#f8fafc';
+                          e.target.style.borderColor = '#e2e8f0';
+                          e.target.style.boxShadow = 'none';
+                        }}
+                      />
+                    </div>
 
+                    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 16, marginBottom: 20 }}>
                       <div>
                         <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#334155', marginBottom: 6 }}>
-                          Work Email <span style={{ color: '#ef4444' }}>*</span>
+                          Email Address <span style={{ color: '#ef4444' }}>*</span>
                         </label>
                         <input
                           type="email"
@@ -3078,51 +3134,13 @@ export default function LandingPage() {
                           }}
                         />
                       </div>
-                    </div>
-
-                    {/* Row 2: Phone Number & Company/Store */}
-                    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 16, marginBottom: 18 }}>
                       <div>
                         <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#334155', marginBottom: 6 }}>
-                          Phone Number <span style={{ fontSize: 11, fontWeight: 400, color: '#94a3b8' }}>(optional)</span>
-                        </label>
-                        <input
-                          type="tel"
-                          placeholder="+91 98765 43210"
-                          value={contactForm.phone}
-                          onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })}
-                          style={{
-                            width: '100%',
-                            padding: '11px 14px',
-                            borderRadius: 10,
-                            border: '1.5px solid #e2e8f0',
-                            background: '#f8fafc',
-                            fontSize: 14,
-                            fontFamily: 'inherit',
-                            outline: 'none',
-                            transition: 'all 0.18s ease',
-                            color: '#0f172a',
-                          }}
-                          onFocus={(e) => {
-                            e.target.style.background = '#ffffff';
-                            e.target.style.borderColor = '#2563eb';
-                            e.target.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.12)';
-                          }}
-                          onBlur={(e) => {
-                            e.target.style.background = '#f8fafc';
-                            e.target.style.borderColor = '#e2e8f0';
-                            e.target.style.boxShadow = 'none';
-                          }}
-                        />
-                      </div>
-
-                      <div>
-                        <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#334155', marginBottom: 6 }}>
-                          Company / Website <span style={{ fontSize: 11, fontWeight: 400, color: '#94a3b8' }}>(optional)</span>
+                          Company / Website (optional)
                         </label>
                         <input
                           type="text"
-                          placeholder="acmestore.com"
+                          placeholder="acme.com"
                           value={contactForm.company}
                           onChange={(e) => setContactForm({ ...contactForm, company: e.target.value })}
                           style={{
@@ -3151,59 +3169,31 @@ export default function LandingPage() {
                       </div>
                     </div>
 
-                    {/* Row 3: Topic / Inquiry Dropdown */}
-                    <div style={{ marginBottom: 18 }}>
+                    {/* Topic / Purpose Selection using CustomSelect */}
+                    <div style={{ marginBottom: 20 }}>
                       <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#334155', marginBottom: 6 }}>
                         What can we help you with?
                       </label>
-                      <select
+                      <CustomSelect
                         value={contactForm.topic}
-                        onChange={(e) => setContactForm({ ...contactForm, topic: e.target.value })}
-                        style={{
-                          width: '100%',
-                          padding: '11px 14px',
-                          borderRadius: 10,
-                          border: '1.5px solid #e2e8f0',
-                          background: '#f8fafc',
-                          fontSize: 14,
-                          fontFamily: 'inherit',
-                          outline: 'none',
-                          color: '#0f172a',
-                          cursor: 'pointer',
-                          appearance: 'none',
-                          WebkitAppearance: 'none',
-                          backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
-                          backgroundRepeat: 'no-repeat',
-                          backgroundPosition: 'right 14px center',
-                          transition: 'all 0.18s ease',
-                        }}
-                        onFocus={(e) => {
-                          e.target.style.background = '#ffffff';
-                          e.target.style.borderColor = '#2563eb';
-                          e.target.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.12)';
-                        }}
-                        onBlur={(e) => {
-                          e.target.style.background = '#f8fafc';
-                          e.target.style.borderColor = '#e2e8f0';
-                          e.target.style.boxShadow = 'none';
-                        }}
-                      >
-                        <option value="Schedule a Live Demo">Schedule a Live Demo</option>
-                        <option value="Custom Plan & Pricing">Custom Plan & Pricing</option>
-                        <option value="Shopify & Integration Setup">Shopify & Integration Setup</option>
-                        <option value="General Support">General Support</option>
-                      </select>
+                        onChange={(val) => setContactForm({ ...contactForm, topic: val })}
+                        options={[
+                          'Schedule a Live Demo',
+                          'Custom Plan & Pricing',
+                          'Shopify & Integration Setup',
+                          'General Support',
+                        ]}
+                      />
                     </div>
 
-                    {/* Row 4: Message */}
-                    <div style={{ marginBottom: 22 }}>
+                    <div style={{ marginBottom: 24 }}>
                       <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#334155', marginBottom: 6 }}>
                         Your Message <span style={{ color: '#ef4444' }}>*</span>
                       </label>
                       <textarea
                         required
-                        rows={3}
-                        placeholder="Tell us what you're looking to achieve with Chatral..."
+                        rows={4}
+                        placeholder="Tell us what you need help with..."
                         value={contactForm.message}
                         onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                         style={{
@@ -3232,7 +3222,6 @@ export default function LandingPage() {
                       />
                     </div>
 
-                    {/* Row 5: Submit Button with Kinetic Roll */}
                     <button
                       type="submit"
                       disabled={contactSubmitting}
@@ -3312,9 +3301,6 @@ export default function LandingPage() {
                   <a onClick={() => scrollTo('pricing')} className="footer-nav-link">
                     Pricing
                   </a>
-                  <a onClick={() => scrollTo('faq')} className="footer-nav-link">
-                    FAQ
-                  </a>
                 </div>
               </div>
 
@@ -3326,6 +3312,9 @@ export default function LandingPage() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 13 }}>
                   <a onClick={() => scrollTo('testimonials')} className="footer-nav-link">
                     Testimonials
+                  </a>
+                  <a onClick={() => scrollTo('faq')} className="footer-nav-link">
+                    FAQ
                   </a>
                   <a onClick={() => scrollTo('contact')} className="footer-nav-link">
                     Contact us
