@@ -16,6 +16,37 @@ import { ChatralFullLogo } from '../components/BrandLogo.jsx';
 
 const { useBreakpoint } = Grid;
 
+// Slick kinetic character rolling text for navbar menu links (staggered roll-up, no box)
+function RollText({ text }) {
+  return (
+    <span className="roll-text" aria-label={text}>
+      <span className="roll-stack roll-stack-primary" aria-hidden="true">
+        {text.split('').map((char, i) => (
+          <span
+            key={i}
+            className="roll-char"
+            style={{ transitionDelay: `${i * 20}ms` }}
+          >
+            {char === ' ' ? '\u00A0' : char}
+          </span>
+        ))}
+      </span>
+      <span className="roll-stack roll-stack-secondary" aria-hidden="true">
+        {text.split('').map((char, i) => (
+          <span
+            key={i}
+            className="roll-char"
+            style={{ transitionDelay: `${i * 20}ms` }}
+          >
+            {char === ' ' ? '\u00A0' : char}
+          </span>
+        ))}
+      </span>
+      <span className="roll-ghost">{text}</span>
+    </span>
+  );
+}
+
 export default function LandingPage() {
   const nav = useNavigate();
   const location = useLocation();
@@ -262,23 +293,23 @@ export default function LandingPage() {
             <ChatralFullLogo height={isMobile ? 32 : 38} dark={false} />
           </a>
 
-          {/* Center Nav Links: Features, How it works, Testimonials, FAQ, Pricing with Slick Hover Animation */}
+          {/* Center Nav Links: Features, How it works, Testimonials, FAQ, Pricing with Kinetic Text Roll (No Box) */}
           {!isMobile && (
-            <Flex gap={8} align="center">
+            <Flex gap={32} align="center">
               <a onClick={() => scrollTo('features')} className="nav-menu-link">
-                Features
+                <RollText text="Features" />
               </a>
               <a onClick={() => scrollTo('how-it-works')} className="nav-menu-link">
-                How it works
+                <RollText text="How it works" />
               </a>
               <a onClick={() => scrollTo('testimonials')} className="nav-menu-link">
-                Testimonials
+                <RollText text="Testimonials" />
               </a>
               <a onClick={() => scrollTo('faq')} className="nav-menu-link">
-                FAQ
+                <RollText text="FAQ" />
               </a>
               <a onClick={() => scrollTo('pricing')} className="nav-menu-link">
-                Pricing
+                <RollText text="Pricing" />
               </a>
             </Flex>
           )}
@@ -307,46 +338,86 @@ export default function LandingPage() {
 
       {/* Interactive Micro-animations, Liquid Waves & Styles */}
       <style>{`
-        /* 1. Navbar Menu Items Hover Animation */
+        /* 1. Navbar Menu Items Hover Animation - Text Roll / Flip (No Box, Pure Typography) */
         .nav-menu-link {
           position: relative;
           color: #475569;
           font-size: 14.5px;
           font-weight: 500;
-          padding: 8px 16px;
-          border-radius: 12px;
+          padding: 6px 0;
+          background: transparent !important;
+          border: none !important;
+          border-radius: 0 !important;
+          box-shadow: none !important;
           text-decoration: none;
           cursor: pointer;
-          transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
           display: inline-flex;
           align-items: center;
           user-select: none;
+          transition: none !important;
         }
-        .nav-menu-link:hover {
-          color: #2563eb;
-          background: rgba(37, 99, 235, 0.08);
-          transform: translateY(-1.5px);
-        }
+        .nav-menu-link:hover,
+        .nav-menu-link:focus,
         .nav-menu-link:active {
-          transform: translateY(0) scale(0.97);
+          background: transparent !important;
+          box-shadow: none !important;
+          transform: none !important;
+          outline: none;
         }
         .nav-menu-link::after {
-          content: '';
-          position: absolute;
-          bottom: 3px;
-          left: 50%;
-          width: 0;
-          height: 2px;
-          background: #2563eb;
-          border-radius: 999px;
-          transform: translateX(-50%);
-          transition: width 0.24s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .nav-menu-link:hover::after {
-          width: 55%;
+          display: none !important;
         }
 
-        /* 2. Global Button Animations */
+        .roll-text {
+          position: relative;
+          display: inline-block;
+          overflow: hidden;
+          line-height: 1.25;
+          vertical-align: middle;
+        }
+        .roll-ghost {
+          visibility: hidden;
+          opacity: 0;
+          pointer-events: none;
+          display: block;
+          height: auto;
+        }
+        .roll-stack {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          display: inline-flex;
+          align-items: center;
+          white-space: nowrap;
+          pointer-events: none;
+        }
+        .roll-stack-primary {
+          color: #475569;
+        }
+        .roll-stack-secondary {
+          color: #2563eb;
+        }
+        .roll-char {
+          display: inline-block;
+          transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+          will-change: transform;
+        }
+        .roll-stack-primary .roll-char {
+          transform: translateY(0%);
+        }
+        .roll-stack-secondary .roll-char {
+          transform: translateY(115%);
+        }
+        .nav-menu-link:hover .roll-stack-primary .roll-char {
+          transform: translateY(-115%);
+        }
+        .nav-menu-link:hover .roll-stack-secondary .roll-char {
+          transform: translateY(0%);
+        }
+
+        /* 2. Global Button Hover (NO scale/size increase, steady button dimensions) */
         .btn-brand-primary {
           display: inline-flex;
           align-items: center;
@@ -357,21 +428,22 @@ export default function LandingPage() {
           border-radius: 12px;
           cursor: pointer;
           font-weight: 600;
-          box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
-          transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
+          transition: background-color 0.2s ease, box-shadow 0.2s ease;
           user-select: none;
           position: relative;
+          transform: none !important;
         }
         .btn-brand-primary:hover {
           background: #1d4ed8;
-          transform: translateY(-2px) scale(1.02);
-          box-shadow: 0 10px 28px -4px rgba(37, 99, 235, 0.55);
+          transform: none !important;
+          box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
         }
         .btn-brand-primary:active {
-          transform: translateY(0) scale(0.98);
+          transform: scale(0.98) !important;
         }
         .btn-brand-primary .btn-arrow-icon {
-          transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .btn-brand-primary:hover .btn-arrow-icon {
           transform: translateX(4px);
@@ -387,18 +459,19 @@ export default function LandingPage() {
           border-radius: 12px;
           cursor: pointer;
           font-weight: 600;
-          box-shadow: 0 2px 6px rgba(37, 99, 235, 0.08);
-          transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 2px 6px rgba(37, 99, 235, 0.06);
+          transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
           user-select: none;
+          transform: none !important;
         }
         .btn-brand-secondary:hover {
           background: #eff6ff;
           border-color: #93c5fd;
-          transform: translateY(-2px) scale(1.02);
-          box-shadow: 0 8px 20px -4px rgba(37, 99, 235, 0.18);
+          transform: none !important;
+          box-shadow: 0 2px 10px rgba(37, 99, 235, 0.12);
         }
         .btn-brand-secondary:active {
-          transform: translateY(0) scale(0.98);
+          transform: scale(0.98) !important;
         }
 
         .btn-cta-banner {
@@ -411,24 +484,25 @@ export default function LandingPage() {
           border-radius: 12px;
           cursor: pointer;
           font-weight: 700;
-          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-          transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+          transition: background-color 0.2s ease, color 0.2s ease;
           user-select: none;
+          transform: none !important;
         }
         .btn-cta-banner:hover {
-          background: #eff6ff;
+          background: #f8faff;
           color: #1e40af;
-          transform: translateY(-2px) scale(1.025);
-          box-shadow: 0 12px 36px rgba(255, 255, 255, 0.3), 0 6px 20px rgba(0, 0, 0, 0.3);
+          transform: none !important;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
         }
         .btn-cta-banner .cta-arrow {
-          transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .btn-cta-banner:hover .cta-arrow {
           transform: translateX(4px);
         }
         .btn-cta-banner:active {
-          transform: translateY(0) scale(0.98);
+          transform: scale(0.98) !important;
         }
 
         /* 3. Footer Links Hover Animation */
@@ -2788,49 +2862,6 @@ export default function LandingPage() {
               <div style={{ color: '#64748b', fontSize: 14.5, lineHeight: 1.6, marginTop: 18 }}>
                 The calm, fast customer messaging and live chat platform built for teams that care about relationships.
               </div>
-
-              {/* Live Operational Status Badge */}
-              <div
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  padding: '6px 14px',
-                  background: '#f0fdf4',
-                  border: '1px solid #bbf7d0',
-                  borderRadius: 999,
-                  marginTop: 22,
-                  fontSize: 12.5,
-                  fontWeight: 600,
-                  color: '#15803d',
-                }}
-              >
-                <span style={{ position: 'relative', display: 'flex', height: 8, width: 8 }}>
-                  <span
-                    style={{
-                      position: 'absolute',
-                      display: 'inline-flex',
-                      height: '100%',
-                      width: '100%',
-                      borderRadius: '50%',
-                      background: '#22c55e',
-                      opacity: 0.75,
-                      animation: 'chatralPing 1.8s cubic-bezier(0, 0, 0.2, 1) infinite',
-                    }}
-                  />
-                  <span
-                    style={{
-                      position: 'relative',
-                      display: 'inline-flex',
-                      borderRadius: '50%',
-                      height: 8,
-                      width: 8,
-                      background: '#16a34a',
-                    }}
-                  />
-                </span>
-                <span>All systems operational</span>
-              </div>
             </div>
 
             {/* Right Group: Product, Company, Legal Columns */}
@@ -3032,11 +3063,9 @@ export default function LandingPage() {
             userSelect: 'none',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
-            e.currentTarget.style.boxShadow = '0 14px 32px -4px rgba(37, 99, 235, 0.28)';
+            e.currentTarget.style.boxShadow = '0 12px 28px -4px rgba(37, 99, 235, 0.28)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'none';
             e.currentTarget.style.boxShadow = '0 10px 28px -4px rgba(15, 23, 42, 0.2), 0 2px 6px rgba(0, 0, 0, 0.05)';
           }}
         >
