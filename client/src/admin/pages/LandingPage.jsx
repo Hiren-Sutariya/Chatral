@@ -25,6 +25,47 @@ export default function LandingPage() {
   const [activeTab, setActiveTab] = useState('all');
   const [openFaq, setOpenFaq] = useState(null);
   const [heroActiveConvId, setHeroActiveConvId] = useState('chatral');
+  const [showWidgetPill, setShowWidgetPill] = useState(() => {
+    try {
+      return sessionStorage.getItem('chatral_pill_dismissed') !== '1';
+    } catch {
+      return true;
+    }
+  });
+  const [isWidgetOpen, setIsWidgetOpen] = useState(false);
+
+  // Monitor whether Chatral live chat panel is open to hide the tooltip while chatting
+  useEffect(() => {
+    const checkOpenState = () => {
+      const host = document.querySelector('[id^="livechat-"]');
+      if (host && host.shadowRoot) {
+        const panel = host.shadowRoot.querySelector('.lc-panel');
+        setIsWidgetOpen(!!panel);
+      }
+    };
+    const timer = setInterval(checkOpenState, 400);
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleOpenLiveWidget = () => {
+    const host = document.querySelector('[id^="livechat-"]');
+    if (host && host.shadowRoot) {
+      const launcher = host.shadowRoot.querySelector('.lc-launcher');
+      if (launcher) {
+        launcher.click();
+      }
+    }
+  };
+
+  const handleDismissPill = (e) => {
+    e.stopPropagation();
+    setShowWidgetPill(false);
+    try {
+      sessionStorage.setItem('chatral_pill_dismissed', '1');
+    } catch {
+      // ignore
+    }
+  };
 
   const heroConversations = {
     chatral: {
@@ -2819,6 +2860,119 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
+
+      {/* Floating Callout Pill pointing to the Chatral Live Chat Widget */}
+      {showWidgetPill && !isWidgetOpen && (
+        <div
+          onClick={handleOpenLiveWidget}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleOpenLiveWidget()}
+          style={{
+            position: 'fixed',
+            bottom: isMobile ? 86 : 24,
+            right: isMobile ? 16 : 88,
+            zIndex: 2147482990,
+            background: '#ffffff',
+            border: '1.5px solid #2563eb',
+            borderRadius: 999,
+            padding: '8px 14px 8px 12px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            boxShadow: '0 10px 28px -4px rgba(15, 23, 42, 0.2), 0 2px 6px rgba(0, 0, 0, 0.05)',
+            cursor: 'pointer',
+            transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+            animation: 'chatralFloat 3s ease-in-out infinite',
+            userSelect: 'none',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
+            e.currentTarget.style.boxShadow = '0 14px 32px -4px rgba(37, 99, 235, 0.28)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'none';
+            e.currentTarget.style.boxShadow = '0 10px 28px -4px rgba(15, 23, 42, 0.2), 0 2px 6px rgba(0, 0, 0, 0.05)';
+          }}
+        >
+          {/* Pulsing Green Dot */}
+          <span style={{ position: 'relative', display: 'flex', height: 8, width: 8, flexShrink: 0 }}>
+            <span
+              style={{
+                position: 'absolute',
+                display: 'inline-flex',
+                height: '100%',
+                width: '100%',
+                borderRadius: '50%',
+                background: '#22c55e',
+                opacity: 0.75,
+                animation: 'chatralPing 1.5s cubic-bezier(0, 0, 0.2, 1) infinite',
+              }}
+            />
+            <span
+              style={{
+                position: 'relative',
+                display: 'inline-flex',
+                borderRadius: '50%',
+                height: 8,
+                width: 8,
+                background: '#16a34a',
+              }}
+            />
+          </span>
+
+          {/* Pill text */}
+          <span style={{ fontSize: 13, fontWeight: 600, color: '#0f172a', whiteSpace: 'nowrap' }}>
+            💬 Try our live widget right here!
+          </span>
+
+          {/* Pointing Arrow (Desktop) */}
+          {!isMobile && (
+            <span style={{ color: '#2563eb', fontWeight: 700, fontSize: 13, marginLeft: 2 }}>
+              →
+            </span>
+          )}
+
+          {/* Dismiss ✕ Button */}
+          <button
+            onClick={handleDismissPill}
+            aria-label="Dismiss"
+            title="Dismiss"
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: '#94a3b8',
+              fontSize: 12,
+              padding: '2px 4px',
+              marginLeft: 2,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '50%',
+              transition: 'color 0.15s ease',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#0f172a')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = '#94a3b8')}
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
+      {/* Global subtle float & pulse keyframes */}
+      <style>{`
+        @keyframes chatralFloat {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-3px); }
+        }
+        @keyframes chatralPing {
+          75%, 100% {
+            transform: scale(2);
+            opacity: 0;
+          }
+        }
+      `}</style>
     </div>
   );
 }
