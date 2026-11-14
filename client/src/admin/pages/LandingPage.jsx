@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { createPortal } from 'react-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   Button, Card, Col, Collapse, Divider, Flex, Grid, Row, Segmented, Tag, Typography,
 } from 'antd';
@@ -17,6 +18,7 @@ const { useBreakpoint } = Grid;
 
 export default function LandingPage() {
   const nav = useNavigate();
+  const location = useLocation();
   const screens = useBreakpoint();
   const isMobile = !screens.md;
 
@@ -27,6 +29,15 @@ export default function LandingPage() {
   const [heroActiveConvId, setHeroActiveConvId] = useState('chatral');
   const [showWidgetPill, setShowWidgetPill] = useState(true);
   const [isWidgetOpen, setIsWidgetOpen] = useState(false);
+
+  const handleLogoClick = (e) => {
+    e.preventDefault();
+    if (location.pathname !== '/' && location.pathname !== '/landing') {
+      nav('/');
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   // Guarantee page loads at absolute top (0, 0) on fresh load / hard refresh and clear any dismissal flag
   useEffect(() => {
@@ -243,9 +254,13 @@ export default function LandingPage() {
           }}
         >
           {/* Official Chatral Logo */}
-          <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}>
+          <a
+            href="/"
+            onClick={handleLogoClick}
+            style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', cursor: 'pointer' }}
+          >
             <ChatralFullLogo height={isMobile ? 32 : 38} dark={false} />
-          </Link>
+          </a>
 
           {/* Center Nav Links: Features, How it works, Testimonials, FAQ, Pricing */}
           {!isMobile && (
@@ -2744,9 +2759,9 @@ export default function LandingPage() {
           >
             {/* Left Column: Official Chatral Brand Logo + Tagline */}
             <div style={{ maxWidth: 320 }}>
-              <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}>
+              <a href="/" onClick={handleLogoClick} style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', cursor: 'pointer' }}>
                 <ChatralFullLogo height={isMobile ? 30 : 34} dark={false} />
-              </Link>
+              </a>
               <div style={{ color: '#6b707c', fontSize: 14, lineHeight: 1.55, marginTop: 16 }}>
                 The simple live chat for teams that care<br />about relationships.
               </div>
@@ -2899,7 +2914,7 @@ export default function LandingPage() {
       </footer>
 
       {/* Floating Callout Pill pointing to the Chatral Live Chat Widget */}
-      {showWidgetPill && !isWidgetOpen && (
+      {showWidgetPill && !isWidgetOpen && typeof document !== 'undefined' && createPortal(
         <div
           onClick={handleOpenLiveWidget}
           role="button"
@@ -2920,7 +2935,7 @@ export default function LandingPage() {
             boxShadow: '0 10px 28px -4px rgba(15, 23, 42, 0.2), 0 2px 6px rgba(0, 0, 0, 0.05)',
             cursor: 'pointer',
             transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-            animation: 'chatralFloat 3s ease-in-out infinite',
+            animation: 'chatralFloat 3s ease-in-out infinite, pillFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
             userSelect: 'none',
           }}
           onMouseEnter={(e) => {
@@ -2994,7 +3009,8 @@ export default function LandingPage() {
           >
             ✕
           </button>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Global subtle float, pulse & smooth entrance keyframes */}

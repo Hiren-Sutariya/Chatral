@@ -48,7 +48,7 @@ export default function TermsOfService() {
           }}
         >
           {/* Official Chatral Logo */}
-          <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}>
+          <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'instant' })} style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}>
             <ChatralFullLogo height={isMobile ? 32 : 38} dark={false} />
           </Link>
 
