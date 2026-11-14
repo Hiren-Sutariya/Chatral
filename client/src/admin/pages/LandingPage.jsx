@@ -531,7 +531,7 @@ export default function LandingPage() {
               </div>
             </div>
             <span style={{ color: '#0c0d10', fontSize: 13, fontWeight: 500 }}>
-              Loved by 38,456 growing teams
+              Trusted by 25+ modern businesses
             </span>
           </div>
 
@@ -2928,7 +2928,7 @@ export default function LandingPage() {
             background: '#ffffff',
             border: '1.5px solid #2563eb',
             borderRadius: 999,
-            padding: '8px 14px 8px 12px',
+            padding: isMobile ? '6px 12px' : '8px 14px',
             display: 'flex',
             alignItems: 'center',
             gap: 8,
@@ -2947,35 +2947,9 @@ export default function LandingPage() {
             e.currentTarget.style.boxShadow = '0 10px 28px -4px rgba(15, 23, 42, 0.2), 0 2px 6px rgba(0, 0, 0, 0.05)';
           }}
         >
-          {/* Pulsing Green Dot */}
-          <span style={{ position: 'relative', display: 'flex', height: 8, width: 8, flexShrink: 0 }}>
-            <span
-              style={{
-                position: 'absolute',
-                display: 'inline-flex',
-                height: '100%',
-                width: '100%',
-                borderRadius: '50%',
-                background: '#22c55e',
-                opacity: 0.75,
-                animation: 'chatralPing 1.5s cubic-bezier(0, 0, 0.2, 1) infinite',
-              }}
-            />
-            <span
-              style={{
-                position: 'relative',
-                display: 'inline-flex',
-                borderRadius: '50%',
-                height: 8,
-                width: 8,
-                background: '#16a34a',
-              }}
-            />
-          </span>
-
           {/* Pill text */}
           <span style={{ fontSize: 13, fontWeight: 600, color: '#0f172a', whiteSpace: 'nowrap' }}>
-            💬 Try our live widget right here!
+            💬 See Chatral live in action!
           </span>
 
           {/* Pointing Arrow (Desktop) */}
