@@ -220,7 +220,7 @@ export default function LandingPage() {
     <div
       className="page-smooth-fade"
       style={{
-        background: '#f7f8fa',
+        background: '#ffffff',
         color: '#0c0d10',
         minHeight: '100vh',
         overflowX: 'clip',
@@ -235,10 +235,10 @@ export default function LandingPage() {
           position: 'sticky',
           top: 0,
           zIndex: 1000,
-          background: 'rgba(247, 248, 250, 0.96)',
-          backdropFilter: 'blur(14px)',
-          WebkitBackdropFilter: 'blur(14px)',
-          borderBottom: '1px solid #e6e7eb',
+          background: 'rgba(255, 255, 255, 0.92)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          borderBottom: '1px solid rgba(226, 232, 240, 0.85)',
           width: '100%',
           padding: isMobile ? '0 16px' : '0 32px',
         }}
@@ -343,7 +343,7 @@ export default function LandingPage() {
             </Flex>
           )}
 
-          {/* Right Button: Signature Black Button with Arrow */}
+          {/* Right Button: Brand Blue Button with Arrow */}
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <button
               onClick={() => nav('/login?mode=signup')}
@@ -351,7 +351,7 @@ export default function LandingPage() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 8,
-                background: '#0c0d10',
+                background: '#2563eb',
                 color: '#ffffff',
                 border: 'none',
                 borderRadius: 12,
@@ -360,12 +360,20 @@ export default function LandingPage() {
                 fontSize: 14,
                 fontWeight: 600,
                 cursor: 'pointer',
-                boxShadow: '0px 1px 2px 0px rgba(12, 13, 16, 0.12), inset 0px 1px 0px 0px rgba(255, 255, 255, 0.12)',
-                transition: 'all 0.15s ease',
+                boxShadow: '0 4px 14px rgba(37, 99, 235, 0.35)',
+                transition: 'all 0.18s ease',
                 fontFamily: 'inherit',
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.88')}
-              onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#1d4ed8';
+                e.currentTarget.style.boxShadow = '0 6px 18px rgba(37, 99, 235, 0.45)';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = '#2563eb';
+                e.currentTarget.style.boxShadow = '0 4px 14px rgba(37, 99, 235, 0.35)';
+                e.currentTarget.style.transform = 'none';
+              }}
             >
               <span>Start Free</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -420,7 +428,7 @@ export default function LandingPage() {
             left: '-15%',
             width: '70vw',
             height: '85vh',
-            background: 'radial-gradient(ellipse 60% 50% at 30% 40%, rgba(186, 230, 253, 0.8) 0%, rgba(191, 219, 254, 0.5) 45%, rgba(247, 248, 250, 0) 75%)',
+            background: 'radial-gradient(ellipse 60% 50% at 30% 40%, rgba(186, 230, 253, 0.8) 0%, rgba(191, 219, 254, 0.5) 45%, rgba(255, 255, 255, 0) 75%)',
             filter: 'blur(55px)',
             animation: 'liquidFlowLeft 14s ease-in-out infinite',
             pointerEvents: 'none',
@@ -434,7 +442,7 @@ export default function LandingPage() {
             right: '-15%',
             width: '70vw',
             height: '90vh',
-            background: 'radial-gradient(ellipse 60% 50% at 70% 45%, rgba(199, 210, 254, 0.75) 0%, rgba(147, 197, 253, 0.45) 45%, rgba(247, 248, 250, 0) 75%)',
+            background: 'radial-gradient(ellipse 60% 50% at 70% 45%, rgba(199, 210, 254, 0.75) 0%, rgba(147, 197, 253, 0.45) 45%, rgba(255, 255, 255, 0) 75%)',
             filter: 'blur(60px)',
             animation: 'liquidFlowRight 16s ease-in-out infinite',
             pointerEvents: 'none',
@@ -448,7 +456,7 @@ export default function LandingPage() {
             left: '25%',
             width: '50vw',
             height: '50vh',
-            background: 'radial-gradient(circle at 50% 30%, rgba(224, 242, 254, 0.7) 0%, rgba(247, 248, 250, 0) 65%)',
+            background: 'radial-gradient(circle at 50% 30%, rgba(224, 242, 254, 0.7) 0%, rgba(255, 255, 255, 0) 65%)',
             filter: 'blur(45px)',
             animation: 'liquidPulse 10s ease-in-out infinite',
             pointerEvents: 'none',
@@ -575,7 +583,7 @@ export default function LandingPage() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 8,
-                background: '#0c0d10',
+                background: '#2563eb',
                 color: '#ffffff',
                 border: 'none',
                 borderRadius: 12,
@@ -584,12 +592,20 @@ export default function LandingPage() {
                 fontSize: 14.5,
                 fontWeight: 600,
                 cursor: 'pointer',
-                boxShadow: '0px 1px 2px 0px rgba(12, 13, 16, 0.12), inset 0px 1px 0px 0px rgba(255, 255, 255, 0.12)',
-                transition: 'opacity 0.15s ease',
+                boxShadow: '0 8px 24px -4px rgba(37, 99, 235, 0.45), 0 2px 6px rgba(37, 99, 235, 0.2)',
+                transition: 'all 0.18s ease',
                 fontFamily: 'inherit',
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.88')}
-              onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#1d4ed8';
+                e.currentTarget.style.boxShadow = '0 10px 28px -4px rgba(37, 99, 235, 0.55)';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = '#2563eb';
+                e.currentTarget.style.boxShadow = '0 8px 24px -4px rgba(37, 99, 235, 0.45), 0 2px 6px rgba(37, 99, 235, 0.2)';
+                e.currentTarget.style.transform = 'none';
+              }}
             >
               <span>Start free trial</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -604,20 +620,28 @@ export default function LandingPage() {
                 alignItems: 'center',
                 gap: 8,
                 background: '#ffffff',
-                color: '#0c0d10',
-                border: '1px solid #e6e7eb',
+                color: '#2563eb',
+                border: '1.5px solid #dbeafe',
                 borderRadius: 12,
                 padding: '12px 24px',
                 height: 46,
                 fontSize: 14.5,
                 fontWeight: 600,
                 cursor: 'pointer',
-                boxShadow: '0px 1px 2px 0px rgba(12, 13, 16, 0.04)',
+                boxShadow: '0 2px 6px rgba(37, 99, 235, 0.08)',
                 transition: 'all 0.15s ease',
                 fontFamily: 'inherit',
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#cbd5e1')}
-              onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#e6e7eb')}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = '#93c5fd';
+                e.currentTarget.style.background = '#eff6ff';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = '#dbeafe';
+                e.currentTarget.style.background = '#ffffff';
+                e.currentTarget.style.transform = 'none';
+              }}
             >
               Book a demo
             </button>
@@ -1435,7 +1459,7 @@ export default function LandingPage() {
       </section>
 
       {/* 3. Features Bento Grid (Exact Relatik 5-Card Bento Layout) */}
-      <section id="features" style={{ padding: isMobile ? '36px 16px' : '52px 24px', background: '#f7f8fa' }}>
+      <section id="features" style={{ padding: isMobile ? '36px 16px' : '52px 24px', background: 'linear-gradient(180deg, #ffffff 0%, #f4f8fe 50%, #ffffff 100%)', borderTop: '1px solid #eef2f6' }}>
         <div style={{ maxWidth: 1080, margin: '0 auto' }}>
           
           {/* Header */}
@@ -2242,7 +2266,7 @@ export default function LandingPage() {
       </section>
 
       {/* 6. FAQ Section (Relatik Exact 2-Column Accordion from Image) */}
-      <section id="faq" style={{ padding: isMobile ? '36px 16px' : '52px 24px', background: '#f7f8fa', borderTop: '1px solid #e6e7eb' }}>
+      <section id="faq" style={{ padding: isMobile ? '36px 16px' : '52px 24px', background: 'linear-gradient(180deg, #ffffff 0%, #f4f8fe 50%, #ffffff 100%)', borderTop: '1px solid #eef2f6' }}>
         <div style={{ maxWidth: 1080, margin: '0 auto' }}>
           <Row gutter={isMobile ? [0, 40] : [64, 32]} align="top">
             {/* Left Column: Badge, Heading, Subtitle & Button */}
@@ -2297,30 +2321,38 @@ export default function LandingPage() {
 
               {/* Contact us Button */}
               <button
-                onClick={() => scrollTo('pricing')}
+                onClick={() => {
+                  if (typeof window !== 'undefined' && window.LiveChat) {
+                    window.LiveChat.open();
+                  } else {
+                    scrollTo('pricing');
+                  }
+                }}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  background: '#ffffff',
-                  color: '#0c0d10',
-                  border: '1px solid #e6e7eb',
+                  background: '#eff6ff',
+                  color: '#2563eb',
+                  border: '1.5px solid #bfdbfe',
                   borderRadius: 12,
                   padding: '11px 24px',
                   fontSize: 14,
                   fontWeight: 600,
                   cursor: 'pointer',
-                  boxShadow: '0 1px 2px rgba(12, 13, 16, 0.04)',
+                  boxShadow: '0 2px 6px rgba(37, 99, 235, 0.08)',
                   transition: 'all 0.15s ease',
                   fontFamily: 'inherit',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#cbd5e1';
-                  e.currentTarget.style.background = '#f9fafb';
+                  e.currentTarget.style.background = '#dbeafe';
+                  e.currentTarget.style.borderColor = '#93c5fd';
+                  e.currentTarget.style.transform = 'translateY(-1px)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = '#e6e7eb';
-                  e.currentTarget.style.background = '#ffffff';
+                  e.currentTarget.style.background = '#eff6ff';
+                  e.currentTarget.style.borderColor = '#bfdbfe';
+                  e.currentTarget.style.transform = 'none';
                 }}
               >
                 Contact us
@@ -2567,7 +2599,7 @@ export default function LandingPage() {
                   block
                   size="middle"
                   onClick={() => nav('/login?mode=signup')}
-                  style={{ background: '#f7f8fa', borderColor: '#e6e7eb', color: '#0c0d10', fontWeight: 600, height: 44, borderRadius: 10, fontSize: 13.5 }}
+                  style={{ background: '#eff6ff', borderColor: '#bfdbfe', color: '#2563eb', fontWeight: 600, height: 44, borderRadius: 10, fontSize: 13.5 }}
                 >
                   Start 7-Day Free Trial
                 </Button>
@@ -2657,7 +2689,7 @@ export default function LandingPage() {
       </section>
 
       {/* 9. Relatik Signature CTA Banner (Exact Match to Image 2) */}
-      <section style={{ padding: isMobile ? '36px 16px 48px' : '52px 24px 64px', background: '#f7f8fa' }}>
+      <section style={{ padding: isMobile ? '36px 16px 48px' : '52px 24px 64px', background: 'linear-gradient(180deg, #ffffff 0%, #f4f8fe 100%)' }}>
         <div
           style={{
             maxWidth: 1040,
@@ -2718,12 +2750,12 @@ export default function LandingPage() {
               alignItems: 'center',
               gap: 8,
               background: '#ffffff',
-              color: '#0c0d10',
+              color: '#1d4ed8',
               border: 'none',
               borderRadius: 12,
               padding: '13px 28px',
               fontSize: 14.5,
-              fontWeight: 600,
+              fontWeight: 700,
               cursor: 'pointer',
               boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
               transition: 'all 0.15s ease',
@@ -2731,10 +2763,14 @@ export default function LandingPage() {
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translateY(-1px)';
+              e.currentTarget.style.background = '#eff6ff';
+              e.currentTarget.style.color = '#1e40af';
               e.currentTarget.style.boxShadow = '0 8px 24px rgba(255, 255, 255, 0.25)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'none';
+              e.currentTarget.style.background = '#ffffff';
+              e.currentTarget.style.color = '#1d4ed8';
               e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.25)';
             }}
           >
