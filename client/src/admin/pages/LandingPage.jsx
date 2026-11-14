@@ -27,6 +27,10 @@ export default function LandingPage() {
   const [heroActiveConvId, setHeroActiveConvId] = useState('chatral');
   const [showWidgetPill, setShowWidgetPill] = useState(true);
   const [isWidgetOpen, setIsWidgetOpen] = useState(false);
+  const [isWidgetMounted, setIsWidgetMounted] = useState(() => {
+    const host = document.querySelector('[id^="livechat-"]');
+    return !!(host && host.shadowRoot && host.shadowRoot.querySelector('.lc-launcher'));
+  });
 
   // Guarantee page loads at absolute top (0, 0) on fresh load / hard refresh and clear any dismissal flag
   useEffect(() => {
@@ -42,16 +46,19 @@ export default function LandingPage() {
     }
   }, []);
 
-  // Monitor whether Chatral live chat panel is open to hide the tooltip while chatting
+  // Monitor whether Chatral live chat panel is open or mounted
   useEffect(() => {
-    const checkOpenState = () => {
+    const checkState = () => {
       const host = document.querySelector('[id^="livechat-"]');
       if (host && host.shadowRoot) {
+        const launcher = host.shadowRoot.querySelector('.lc-launcher');
+        setIsWidgetMounted(!!launcher);
         const panel = host.shadowRoot.querySelector('.lc-panel');
         setIsWidgetOpen(!!panel);
       }
     };
-    const timer = setInterval(checkOpenState, 400);
+    checkState();
+    const timer = setInterval(checkState, 150);
     return () => clearInterval(timer);
   }, []);
 
@@ -155,9 +162,18 @@ export default function LandingPage() {
     let existing = document.querySelector('script[data-store="pk_yU4JQtndJuFviYy6d94ZzZE-"]');
     if (!existing) {
       const s = document.createElement('script');
-      s.src = 'https://chatral-backend.onrender.com/widget/chat.js';
+      // Instant local bundle load, with fallback to backend
+      s.src = '/widget/chat.js';
+      s.dataset.api = 'https://chatral-backend.onrender.com';
       s.dataset.store = 'pk_yU4JQtndJuFviYy6d94ZzZE-';
       s.async = true;
+      s.onerror = () => {
+        const fb = document.createElement('script');
+        fb.src = 'https://chatral-backend.onrender.com/widget/chat.js';
+        fb.dataset.store = 'pk_yU4JQtndJuFviYy6d94ZzZE-';
+        fb.async = true;
+        document.body.appendChild(fb);
+      };
       document.body.appendChild(s);
     }
 
@@ -2865,7 +2881,7 @@ export default function LandingPage() {
       </footer>
 
       {/* Floating Callout Pill pointing to the Chatral Live Chat Widget */}
-      {showWidgetPill && !isWidgetOpen && (
+      {showWidgetPill && !isWidgetOpen && isWidgetMounted && (
         <div
           onClick={handleOpenLiveWidget}
           role="button"

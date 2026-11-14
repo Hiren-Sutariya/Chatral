@@ -126,8 +126,40 @@ export async function downloadTranscript(url, visitorToken) {
   setTimeout(() => URL.revokeObjectURL(href), 10_000);
 }
 
+export const DEFAULT_WIDGET_CONFIG = {
+  colors: { primary: '#0f172a', headerText: '#ffffff', visitorBubble: '#2563eb', visitorText: '#ffffff', agentBubble: '#f1f5f9', agentText: '#0f172a', background: '#ffffff' },
+  logoUrl: '',
+  agentName: 'Chatral Support',
+  avatarUrl: '',
+  launcher: { position: 'right', offsetX: 20, offsetY: 20, size: 60, label: '' },
+  size: { width: 370, height: 560 },
+  font: { family: 'inherit', size: 14 },
+  layout: { mobileFullscreen: true, showOnMobile: true, showOnDesktop: true },
+  messages: {
+    title: 'Chat with us',
+    subtitle: 'We typically reply in a few minutes',
+    greeting: 'Hi there 👋 How can we help?',
+    placeholder: 'Type your message…',
+    offlineTitle: 'We are offline',
+    offlineText: "Leave us a message and we'll get back to you by email.",
+    offlineThanks: 'Thanks! We received your message and will reply by email.',
+    afterPrechat: 'Thank you for your message! 😊\nPlease wait 2 minutes, our customer support team will join you shortly.',
+  },
+  preChatForm: { enabled: false, fields: [] },
+  displayRules: { mode: 'all', patterns: [] },
+  businessHours: { enabled: false },
+  offlineBehavior: 'form',
+  sound: true,
+};
+
 export default function ChatApp({ api, storeKey, popout = false }) {
-  const [cfg, setCfg] = useState(null);
+  const [cfg, setCfg] = useState(() => {
+    try {
+      const cached = store.get(`lc_cfg_${storeKey}`);
+      if (cached) return JSON.parse(cached);
+    } catch {}
+    return DEFAULT_WIDGET_CONFIG;
+  });
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(popout || store.sget(`lc_open_${storeKey}`) === '1');
   // Visitor's own sound preference (header menu); the store's cfg.sound still has to allow sound.
@@ -187,6 +219,7 @@ export default function ChatApp({ api, storeKey, popout = false }) {
       if (s.visitorToken) { token.current = s.visitorToken; store.set(`lc_v_${s.tag}`, s.visitorToken); }
       if (s.rotatedKey) console.warn('[livechat] This embed uses an old store key. Update the snippet from your dashboard.');
       setCfg(s.config);
+      try { store.set(`lc_cfg_${storeKey}`, JSON.stringify(s.config)); } catch {}
       window.__livechatLoadFont?.(s.config.font.family);
       setVisitor(s.visitor);
       setAvail(s.availability);
