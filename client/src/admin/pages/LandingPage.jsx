@@ -2765,22 +2765,37 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 9. Relatik Signature CTA Banner (Exact Match to Image 2) */}
-      <section style={{ padding: isMobile ? '36px 16px 48px' : '52px 24px 64px', background: 'linear-gradient(180deg, #ffffff 0%, #f4f8fe 100%)' }}>
+      {/* 9. Relatik Signature CTA Banner - Sleek, Compact & Crafted */}
+      <section style={{ padding: isMobile ? '28px 16px 36px' : '40px 24px 52px', background: 'linear-gradient(180deg, #ffffff 0%, #f4f8fe 100%)' }}>
         <div
           style={{
-            maxWidth: 1040,
+            maxWidth: 920,
             margin: '0 auto',
-            background: 'radial-gradient(75% 100% at 50% -10%, #1e5eff 0%, #0d2870 38%, #07090e 75%, #050608 100%)',
-            borderRadius: 32,
-            padding: isMobile ? '56px 20px' : '92px 48px',
+            background: 'radial-gradient(85% 120% at 50% -10%, #1d4ed8 0%, #0d1b3e 45%, #080d1a 100%)',
+            borderRadius: 24,
+            padding: isMobile ? '40px 20px' : '56px 36px',
             textAlign: 'center',
-            boxShadow: '0 30px 80px -20px rgba(12, 13, 16, 0.45), 0 12px 36px -10px rgba(30, 94, 255, 0.35)',
+            boxShadow: '0 20px 50px -12px rgba(12, 13, 16, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1) inset, 0 8px 24px -4px rgba(30, 94, 255, 0.25)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
             position: 'relative',
             overflow: 'hidden',
           }}
         >
+          {/* Subtle glow sphere behind text */}
+          <div
+            style={{
+              position: 'absolute',
+              top: -60,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: 440,
+              height: 200,
+              background: 'radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, transparent 70%)',
+              pointerEvents: 'none',
+              filter: 'blur(24px)',
+            }}
+          />
+
           {/* Subtle top shimmer accent */}
           <div
             style={{
@@ -2788,9 +2803,9 @@ export default function LandingPage() {
               top: 0,
               left: '50%',
               transform: 'translateX(-50%)',
-              width: '60%',
+              width: '65%',
               height: 1,
-              background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent)',
+              background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent)',
             }}
           />
 
@@ -2798,23 +2813,25 @@ export default function LandingPage() {
             level={2}
             style={{
               color: '#ffffff',
-              fontSize: isMobile ? 28 : 46,
-              fontWeight: 800,
-              letterSpacing: '-0.035em',
-              lineHeight: 1.15,
-              margin: '0 0 16px',
+              fontSize: isMobile ? 24 : 34,
+              fontWeight: 750,
+              letterSpacing: '-0.03em',
+              lineHeight: 1.2,
+              margin: '0 0 12px',
+              position: 'relative',
             }}
           >
             Ready to build better customer relationships?
           </Typography.Title>
           <Typography.Paragraph
             style={{
-              color: 'rgba(255, 255, 255, 0.68)',
-              fontSize: isMobile ? 14.5 : 15.5,
-              maxWidth: 520,
-              margin: '0 auto 36px',
-              lineHeight: 1.6,
+              color: 'rgba(255, 255, 255, 0.72)',
+              fontSize: isMobile ? 13.5 : 14.5,
+              maxWidth: 480,
+              margin: '0 auto 24px',
+              lineHeight: 1.55,
               fontWeight: 400,
+              position: 'relative',
             }}
           >
             Start your free 7-day trial today. No credit card required — set up your workspace in minutes.
@@ -2824,13 +2841,16 @@ export default function LandingPage() {
             onClick={() => nav('/login?mode=signup')}
             className="btn-cta-banner"
             style={{
-              padding: '14px 30px',
-              fontSize: 15,
+              padding: '11px 24px',
+              height: 42,
+              fontSize: 14,
+              borderRadius: 10,
               fontFamily: 'inherit',
+              position: 'relative',
             }}
           >
-            <span className="cta-arrow" style={{ fontSize: 16 }}>→</span>
             <span>Start Free Trial</span>
+            <span className="cta-arrow" style={{ fontSize: 15, marginLeft: 2 }}>→</span>
           </button>
         </div>
       </section>
