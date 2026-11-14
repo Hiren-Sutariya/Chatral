@@ -16,8 +16,8 @@ import { ChatralFullLogo } from '../components/BrandLogo.jsx';
 
 const { useBreakpoint } = Grid;
 
-// Slick kinetic character rolling text for navbar menu links (staggered roll-up, no box)
-function RollText({ text }) {
+// Slick kinetic character rolling text for navbar menu links & buttons (staggered roll-up, no box)
+function RollText({ text, secondaryColor }) {
   return (
     <span className="roll-text" aria-label={text}>
       <span className="roll-stack roll-stack-primary" aria-hidden="true">
@@ -25,18 +25,22 @@ function RollText({ text }) {
           <span
             key={i}
             className="roll-char"
-            style={{ transitionDelay: `${i * 20}ms` }}
+            style={{ transitionDelay: `${i * 18}ms` }}
           >
             {char === ' ' ? '\u00A0' : char}
           </span>
         ))}
       </span>
-      <span className="roll-stack roll-stack-secondary" aria-hidden="true">
+      <span
+        className="roll-stack roll-stack-secondary"
+        aria-hidden="true"
+        style={secondaryColor ? { color: secondaryColor } : undefined}
+      >
         {text.split('').map((char, i) => (
           <span
             key={i}
             className="roll-char"
-            style={{ transitionDelay: `${i * 20}ms` }}
+            style={{ transitionDelay: `${i * 18}ms` }}
           >
             {char === ' ' ? '\u00A0' : char}
           </span>
@@ -60,6 +64,24 @@ export default function LandingPage() {
   const [heroActiveConvId, setHeroActiveConvId] = useState('chatral');
   const [showWidgetPill, setShowWidgetPill] = useState(true);
   const [isWidgetOpen, setIsWidgetOpen] = useState(false);
+
+  // Contact Form state & submission handler
+  const [contactForm, setContactForm] = useState({ name: '', email: '', company: '', message: '' });
+  const [contactSubmitted, setContactSubmitted] = useState(false);
+  const [contactSubmitting, setContactSubmitting] = useState(false);
+
+  const handleContactSubmit = (e) => {
+    e.preventDefault();
+    if (!contactForm.name.trim() || !contactForm.email.trim() || !contactForm.message.trim()) {
+      return;
+    }
+    setContactSubmitting(true);
+    setTimeout(() => {
+      setContactSubmitting(false);
+      setContactSubmitted(true);
+      setContactForm({ name: '', email: '', company: '', message: '' });
+    }, 500);
+  };
 
   const handleLogoClick = (e) => {
     e.preventDefault();
@@ -297,24 +319,24 @@ export default function LandingPage() {
           {!isMobile && (
             <Flex gap={32} align="center">
               <a onClick={() => scrollTo('features')} className="nav-menu-link">
-                <RollText text="Features" />
+                <RollText text="Features" secondaryColor="#2563eb" />
               </a>
               <a onClick={() => scrollTo('how-it-works')} className="nav-menu-link">
-                <RollText text="How it works" />
+                <RollText text="How it works" secondaryColor="#2563eb" />
               </a>
               <a onClick={() => scrollTo('testimonials')} className="nav-menu-link">
-                <RollText text="Testimonials" />
+                <RollText text="Testimonials" secondaryColor="#2563eb" />
               </a>
               <a onClick={() => scrollTo('faq')} className="nav-menu-link">
-                <RollText text="FAQ" />
+                <RollText text="FAQ" secondaryColor="#2563eb" />
               </a>
               <a onClick={() => scrollTo('pricing')} className="nav-menu-link">
-                <RollText text="Pricing" />
+                <RollText text="Pricing" secondaryColor="#2563eb" />
               </a>
             </Flex>
           )}
 
-          {/* Right Button: Brand Blue Button with Interactive Arrow Animation */}
+          {/* Right Button: Brand Blue Button with Interactive Kinetic Roll & Arrow */}
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <button
               onClick={() => nav('/login?mode=signup')}
@@ -326,7 +348,7 @@ export default function LandingPage() {
                 fontFamily: 'inherit',
               }}
             >
-              <span>Start Free</span>
+              <RollText text="Start Free" />
               <svg className="btn-arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14" />
                 <path d="m12 5 7 7-7 7" />
@@ -370,7 +392,9 @@ export default function LandingPage() {
 
         .roll-text {
           position: relative;
-          display: inline-block;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
           overflow: hidden;
           line-height: 1.25;
           vertical-align: middle;
@@ -379,7 +403,8 @@ export default function LandingPage() {
           visibility: hidden;
           opacity: 0;
           pointer-events: none;
-          display: block;
+          display: inline-block;
+          white-space: nowrap;
           height: auto;
         }
         .roll-stack {
@@ -390,14 +415,15 @@ export default function LandingPage() {
           height: 100%;
           display: inline-flex;
           align-items: center;
+          justify-content: center;
           white-space: nowrap;
           pointer-events: none;
         }
         .roll-stack-primary {
-          color: #475569;
+          color: inherit;
         }
         .roll-stack-secondary {
-          color: #2563eb;
+          color: inherit;
         }
         .roll-char {
           display: inline-block;
@@ -410,10 +436,24 @@ export default function LandingPage() {
         .roll-stack-secondary .roll-char {
           transform: translateY(115%);
         }
+
+        /* Hover on Nav Menu Link */
         .nav-menu-link:hover .roll-stack-primary .roll-char {
           transform: translateY(-115%);
         }
         .nav-menu-link:hover .roll-stack-secondary .roll-char {
+          transform: translateY(0%);
+        }
+
+        /* Hover on ALL Buttons on Landing Page */
+        button:hover .roll-stack-primary .roll-char,
+        .btn-brand-primary:hover .roll-stack-primary .roll-char,
+        .btn-brand-secondary:hover .roll-stack-primary .roll-char {
+          transform: translateY(-115%);
+        }
+        button:hover .roll-stack-secondary .roll-char,
+        .btn-brand-primary:hover .roll-stack-secondary .roll-char,
+        .btn-brand-secondary:hover .roll-stack-secondary .roll-char {
           transform: translateY(0%);
         }
 
@@ -721,14 +761,14 @@ export default function LandingPage() {
                 fontFamily: 'inherit',
               }}
             >
-              <span>Start free trial</span>
+              <RollText text="Start free trial" />
               <svg className="btn-arrow-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14" />
                 <path d="m12 5 7 7-7 7" />
               </svg>
             </button>
             <button
-              onClick={() => scrollTo('pricing')}
+              onClick={() => scrollTo('contact')}
               className="btn-brand-secondary"
               style={{
                 padding: '13px 26px',
@@ -737,7 +777,7 @@ export default function LandingPage() {
                 fontFamily: 'inherit',
               }}
             >
-              Book a demo
+              <RollText text="Book a demo" secondaryColor="#1d4ed8" />
             </button>
           </Flex>
 
@@ -2413,15 +2453,9 @@ export default function LandingPage() {
                 Everything you need to know about Chatral. Can’t find what you’re looking for? Our team is happy to help.
               </Typography.Paragraph>
 
-              {/* Contact us Button with Dynamic Hover Animation */}
+              {/* Contact us Button with Kinetic Text Roll Animation */}
               <button
-                onClick={() => {
-                  if (typeof window !== 'undefined' && window.LiveChat) {
-                    window.LiveChat.open();
-                  } else {
-                    scrollTo('pricing');
-                  }
-                }}
+                onClick={() => scrollTo('contact')}
                 className="btn-brand-secondary"
                 style={{
                   padding: '12px 24px',
@@ -2429,7 +2463,7 @@ export default function LandingPage() {
                   fontFamily: 'inherit',
                 }}
               >
-                Contact us
+                <RollText text="Contact us" secondaryColor="#1d4ed8" />
               </button>
             </Col>
 
@@ -2681,7 +2715,7 @@ export default function LandingPage() {
                     fontFamily: 'inherit',
                   }}
                 >
-                  Start 7-Day Free Trial
+                  <RollText text="Start 7-Day Free Trial" secondaryColor="#1d4ed8" />
                 </button>
                 <div style={{ textAlign: 'center', fontSize: 11.5, color: '#9aa0ac', marginTop: 10 }}>
                   No credit card required
@@ -2754,7 +2788,7 @@ export default function LandingPage() {
                     fontFamily: 'inherit',
                   }}
                 >
-                  Start 7-Day Free Trial
+                  <RollText text="Start 7-Day Free Trial" />
                 </button>
                 <div style={{ textAlign: 'center', fontSize: 11.5, color: '#9aa0ac', marginTop: 10 }}>
                   Includes 7-day free trial • Cancel anytime
@@ -2765,93 +2799,395 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 9. Relatik Signature CTA Banner - Sleek, Compact & Crafted */}
-      <section style={{ padding: isMobile ? '28px 16px 36px' : '40px 24px 52px', background: 'linear-gradient(180deg, #ffffff 0%, #f4f8fe 100%)' }}>
-        <div
-          style={{
-            maxWidth: 920,
-            margin: '0 auto',
-            background: 'radial-gradient(85% 120% at 50% -10%, #1d4ed8 0%, #0d1b3e 45%, #080d1a 100%)',
-            borderRadius: 24,
-            padding: isMobile ? '40px 20px' : '56px 36px',
-            textAlign: 'center',
-            boxShadow: '0 20px 50px -12px rgba(12, 13, 16, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1) inset, 0 8px 24px -4px rgba(30, 94, 255, 0.25)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            position: 'relative',
-            overflow: 'hidden',
-          }}
-        >
-          {/* Subtle glow sphere behind text */}
-          <div
-            style={{
-              position: 'absolute',
-              top: -60,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: 440,
-              height: 200,
-              background: 'radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, transparent 70%)',
-              pointerEvents: 'none',
-              filter: 'blur(24px)',
-            }}
-          />
+      {/* 9. Contact Us Form Section */}
+      <section
+        id="contact"
+        style={{
+          padding: isMobile ? '56px 20px 64px' : '88px 32px 96px',
+          background: 'linear-gradient(180deg, #ffffff 0%, #f4f8fe 50%, #ffffff 100%)',
+          position: 'relative',
+        }}
+      >
+        <div style={{ maxWidth: 1120, margin: '0 auto' }}>
+          <Row gutter={[isMobile ? 32 : 56, 32]} align="top">
+            {/* Left Column: Context, Reassurance & Direct Contacts */}
+            <Col xs={24} lg={11}>
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: '5px 14px',
+                  background: '#eaf2ff',
+                  border: '1px solid rgba(43, 127, 255, 0.2)',
+                  borderRadius: 999,
+                  marginBottom: 18,
+                }}
+              >
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#2563eb' }} />
+                <span style={{ color: '#2563eb', fontSize: 11, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+                  Get in touch
+                </span>
+              </div>
 
-          {/* Subtle top shimmer accent */}
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '65%',
-              height: 1,
-              background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent)',
-            }}
-          />
+              <Typography.Title
+                level={2}
+                style={{
+                  color: '#0c0d10',
+                  fontSize: isMobile ? 30 : 42,
+                  fontWeight: 800,
+                  letterSpacing: '-0.035em',
+                  lineHeight: 1.15,
+                  margin: '0 0 16px',
+                }}
+              >
+                Let’s talk about growing your customer conversations.
+              </Typography.Title>
 
-          <Typography.Title
-            level={2}
-            style={{
-              color: '#ffffff',
-              fontSize: isMobile ? 24 : 34,
-              fontWeight: 750,
-              letterSpacing: '-0.03em',
-              lineHeight: 1.2,
-              margin: '0 0 12px',
-              position: 'relative',
-            }}
-          >
-            Ready to build better customer relationships?
-          </Typography.Title>
-          <Typography.Paragraph
-            style={{
-              color: 'rgba(255, 255, 255, 0.72)',
-              fontSize: isMobile ? 13.5 : 14.5,
-              maxWidth: 480,
-              margin: '0 auto 24px',
-              lineHeight: 1.55,
-              fontWeight: 400,
-              position: 'relative',
-            }}
-          >
-            Start your free 7-day trial today. No credit card required — set up your workspace in minutes.
-          </Typography.Paragraph>
+              <Typography.Paragraph
+                style={{
+                  color: '#5b5f6b',
+                  fontSize: isMobile ? 15 : 16,
+                  lineHeight: 1.6,
+                  margin: '0 0 32px',
+                  fontWeight: 400,
+                }}
+              >
+                Have questions about custom plans, installation, or high-volume stores?
+                Send us a note and our team will get back to you within a few hours.
+              </Typography.Paragraph>
 
-          <button
-            onClick={() => nav('/login?mode=signup')}
-            className="btn-cta-banner"
-            style={{
-              padding: '11px 24px',
-              height: 42,
-              fontSize: 14,
-              borderRadius: 10,
-              fontFamily: 'inherit',
-              position: 'relative',
-            }}
-          >
-            <span>Start Free Trial</span>
-            <span className="cta-arrow" style={{ fontSize: 15, marginLeft: 2 }}>→</span>
-          </button>
+              {/* Direct Info Cards */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 14,
+                    padding: '14px 18px',
+                    background: '#ffffff',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: 14,
+                    boxShadow: '0 2px 8px rgba(37, 99, 235, 0.04)',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: 10,
+                      background: '#eff6ff',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#2563eb',
+                      fontSize: 18,
+                    }}
+                  >
+                    ✉️
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 12, fontWeight: 600, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+                      Direct Email
+                    </div>
+                    <a
+                      href="mailto:digiscaleinfotech@gmail.com"
+                      style={{ fontSize: 14.5, fontWeight: 600, color: '#0c0d10', textDecoration: 'none' }}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = '#2563eb')}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = '#0c0d10')}
+                    >
+                      digiscaleinfotech@gmail.com
+                    </a>
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 14,
+                    padding: '14px 18px',
+                    background: '#ffffff',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: 14,
+                    boxShadow: '0 2px 8px rgba(37, 99, 235, 0.04)',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: 10,
+                      background: '#eff6ff',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#2563eb',
+                      fontSize: 18,
+                    }}
+                  >
+                    ⚡
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 12, fontWeight: 600, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+                      Response Time
+                    </div>
+                    <div style={{ fontSize: 14.5, fontWeight: 600, color: '#0c0d10' }}>
+                      Average under 2 hours (Mon - Sat)
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 14,
+                    padding: '14px 18px',
+                    background: '#ffffff',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: 14,
+                    boxShadow: '0 2px 8px rgba(37, 99, 235, 0.04)',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: 10,
+                      background: '#eff6ff',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#2563eb',
+                      fontSize: 18,
+                    }}
+                  >
+                    📍
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 12, fontWeight: 600, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+                      Location
+                    </div>
+                    <div style={{ fontSize: 14.5, fontWeight: 600, color: '#0c0d10' }}>
+                      Gujarat, India 🇮🇳
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Col>
+
+            {/* Right Column: Clean, Interactive Contact Form Card */}
+            <Col xs={24} lg={13}>
+              <div
+                style={{
+                  background: '#ffffff',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: 24,
+                  padding: isMobile ? '32px 20px' : '44px 38px',
+                  boxShadow: '0 20px 48px -12px rgba(37, 99, 235, 0.1)',
+                  position: 'relative',
+                }}
+              >
+                {contactSubmitted ? (
+                  <div style={{ textAlign: 'center', padding: '36px 12px' }}>
+                    <div
+                      style={{
+                        width: 56,
+                        height: 56,
+                        borderRadius: '50%',
+                        background: '#dcfce7',
+                        color: '#16a34a',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: 26,
+                        margin: '0 auto 18px',
+                      }}
+                    >
+                      ✓
+                    </div>
+                    <h3 style={{ fontSize: 22, fontWeight: 700, color: '#0c0d10', marginBottom: 8 }}>
+                      Message sent successfully!
+                    </h3>
+                    <p style={{ color: '#64748b', fontSize: 14.5, lineHeight: 1.5, maxWidth: 380, margin: '0 auto 24px' }}>
+                      Thank you for reaching out. A Chatral team member will get back to you at your email address shortly.
+                    </p>
+                    <button
+                      onClick={() => setContactSubmitted(false)}
+                      className="btn-brand-secondary"
+                      style={{ padding: '10px 22px', fontSize: 14, height: 40 }}
+                    >
+                      <RollText text="Send another message" secondaryColor="#1d4ed8" />
+                    </button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleContactSubmit}>
+                    <div style={{ marginBottom: 20 }}>
+                      <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#334155', marginBottom: 6 }}>
+                        Full Name <span style={{ color: '#ef4444' }}>*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="John Doe"
+                        value={contactForm.name}
+                        onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                        style={{
+                          width: '100%',
+                          padding: '11px 14px',
+                          borderRadius: 10,
+                          border: '1.5px solid #e2e8f0',
+                          background: '#f8fafc',
+                          fontSize: 14,
+                          fontFamily: 'inherit',
+                          outline: 'none',
+                          transition: 'all 0.18s ease',
+                          color: '#0f172a',
+                        }}
+                        onFocus={(e) => {
+                          e.target.style.background = '#ffffff';
+                          e.target.style.borderColor = '#2563eb';
+                          e.target.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.12)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.background = '#f8fafc';
+                          e.target.style.borderColor = '#e2e8f0';
+                          e.target.style.boxShadow = 'none';
+                        }}
+                      />
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 16, marginBottom: 20 }}>
+                      <div>
+                        <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#334155', marginBottom: 6 }}>
+                          Email Address <span style={{ color: '#ef4444' }}>*</span>
+                        </label>
+                        <input
+                          type="email"
+                          required
+                          placeholder="john@example.com"
+                          value={contactForm.email}
+                          onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                          style={{
+                            width: '100%',
+                            padding: '11px 14px',
+                            borderRadius: 10,
+                            border: '1.5px solid #e2e8f0',
+                            background: '#f8fafc',
+                            fontSize: 14,
+                            fontFamily: 'inherit',
+                            outline: 'none',
+                            transition: 'all 0.18s ease',
+                            color: '#0f172a',
+                          }}
+                          onFocus={(e) => {
+                            e.target.style.background = '#ffffff';
+                            e.target.style.borderColor = '#2563eb';
+                            e.target.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.12)';
+                          }}
+                          onBlur={(e) => {
+                            e.target.style.background = '#f8fafc';
+                            e.target.style.borderColor = '#e2e8f0';
+                            e.target.style.boxShadow = 'none';
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#334155', marginBottom: 6 }}>
+                          Company / Website (optional)
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="acme.com"
+                          value={contactForm.company}
+                          onChange={(e) => setContactForm({ ...contactForm, company: e.target.value })}
+                          style={{
+                            width: '100%',
+                            padding: '11px 14px',
+                            borderRadius: 10,
+                            border: '1.5px solid #e2e8f0',
+                            background: '#f8fafc',
+                            fontSize: 14,
+                            fontFamily: 'inherit',
+                            outline: 'none',
+                            transition: 'all 0.18s ease',
+                            color: '#0f172a',
+                          }}
+                          onFocus={(e) => {
+                            e.target.style.background = '#ffffff';
+                            e.target.style.borderColor = '#2563eb';
+                            e.target.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.12)';
+                          }}
+                          onBlur={(e) => {
+                            e.target.style.background = '#f8fafc';
+                            e.target.style.borderColor = '#e2e8f0';
+                            e.target.style.boxShadow = 'none';
+                          }}
+                        />
+                      </div>
+                    </div>
+
+                    <div style={{ marginBottom: 24 }}>
+                      <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#334155', marginBottom: 6 }}>
+                        Your Message <span style={{ color: '#ef4444' }}>*</span>
+                      </label>
+                      <textarea
+                        required
+                        rows={4}
+                        placeholder="Tell us what you need help with..."
+                        value={contactForm.message}
+                        onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                        style={{
+                          width: '100%',
+                          padding: '12px 14px',
+                          borderRadius: 10,
+                          border: '1.5px solid #e2e8f0',
+                          background: '#f8fafc',
+                          fontSize: 14,
+                          fontFamily: 'inherit',
+                          outline: 'none',
+                          transition: 'all 0.18s ease',
+                          color: '#0f172a',
+                          resize: 'vertical',
+                        }}
+                        onFocus={(e) => {
+                          e.target.style.background = '#ffffff';
+                          e.target.style.borderColor = '#2563eb';
+                          e.target.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.12)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.background = '#f8fafc';
+                          e.target.style.borderColor = '#e2e8f0';
+                          e.target.style.boxShadow = 'none';
+                        }}
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={contactSubmitting}
+                      className="btn-brand-primary"
+                      style={{
+                        width: '100%',
+                        padding: '13px 28px',
+                        height: 48,
+                        fontSize: 15,
+                        borderRadius: 12,
+                        fontFamily: 'inherit',
+                      }}
+                    >
+                      <RollText text={contactSubmitting ? 'Sending...' : 'Send Message'} />
+                      <svg className="btn-arrow-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                      </svg>
+                    </button>
+                  </form>
+                )}
+              </div>
+            </Col>
+          </Row>
         </div>
       </section>
 
@@ -2922,8 +3258,8 @@ export default function LandingPage() {
                   <a onClick={() => scrollTo('testimonials')} className="footer-nav-link">
                     Testimonials
                   </a>
-                  <a href="mailto:digiscaleinfotech@gmail.com" className="footer-nav-link">
-                    Contact team
+                  <a onClick={() => scrollTo('contact')} className="footer-nav-link">
+                    Contact us
                   </a>
                 </div>
               </div>
