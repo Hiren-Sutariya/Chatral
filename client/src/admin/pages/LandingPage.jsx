@@ -262,121 +262,41 @@ export default function LandingPage() {
             <ChatralFullLogo height={isMobile ? 32 : 38} dark={false} />
           </a>
 
-          {/* Center Nav Links: Features, How it works, Testimonials, FAQ, Pricing */}
+          {/* Center Nav Links: Features, How it works, Testimonials, FAQ, Pricing with Slick Hover Animation */}
           {!isMobile && (
-            <Flex gap={36} align="center">
-              <a
-                onClick={() => scrollTo('features')}
-                style={{
-                  color: '#5b5f6b',
-                  fontSize: 14.5,
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  transition: 'color 0.15s',
-                  textDecoration: 'none',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = '#0c0d10')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = '#5b5f6b')}
-              >
+            <Flex gap={8} align="center">
+              <a onClick={() => scrollTo('features')} className="nav-menu-link">
                 Features
               </a>
-              <a
-                onClick={() => scrollTo('how-it-works')}
-                style={{
-                  color: '#5b5f6b',
-                  fontSize: 14.5,
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  transition: 'color 0.15s',
-                  textDecoration: 'none',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = '#0c0d10')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = '#5b5f6b')}
-              >
+              <a onClick={() => scrollTo('how-it-works')} className="nav-menu-link">
                 How it works
               </a>
-              <a
-                onClick={() => scrollTo('testimonials')}
-                style={{
-                  color: '#5b5f6b',
-                  fontSize: 14.5,
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  transition: 'color 0.15s',
-                  textDecoration: 'none',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = '#0c0d10')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = '#5b5f6b')}
-              >
+              <a onClick={() => scrollTo('testimonials')} className="nav-menu-link">
                 Testimonials
               </a>
-              <a
-                onClick={() => scrollTo('faq')}
-                style={{
-                  color: '#5b5f6b',
-                  fontSize: 14.5,
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  transition: 'color 0.15s',
-                  textDecoration: 'none',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = '#0c0d10')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = '#5b5f6b')}
-              >
+              <a onClick={() => scrollTo('faq')} className="nav-menu-link">
                 FAQ
               </a>
-              <a
-                onClick={() => scrollTo('pricing')}
-                style={{
-                  color: '#5b5f6b',
-                  fontSize: 14.5,
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  transition: 'color 0.15s',
-                  textDecoration: 'none',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = '#0c0d10')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = '#5b5f6b')}
-              >
+              <a onClick={() => scrollTo('pricing')} className="nav-menu-link">
                 Pricing
               </a>
             </Flex>
           )}
 
-          {/* Right Button: Brand Blue Button with Arrow */}
+          {/* Right Button: Brand Blue Button with Interactive Arrow Animation */}
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <button
               onClick={() => nav('/login?mode=signup')}
+              className="btn-brand-primary"
               style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 8,
-                background: '#2563eb',
-                color: '#ffffff',
-                border: 'none',
-                borderRadius: 12,
                 padding: '10px 22px',
                 height: 42,
                 fontSize: 14,
-                fontWeight: 600,
-                cursor: 'pointer',
-                boxShadow: '0 4px 14px rgba(37, 99, 235, 0.35)',
-                transition: 'all 0.18s ease',
                 fontFamily: 'inherit',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#1d4ed8';
-                e.currentTarget.style.boxShadow = '0 6px 18px rgba(37, 99, 235, 0.45)';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = '#2563eb';
-                e.currentTarget.style.boxShadow = '0 4px 14px rgba(37, 99, 235, 0.35)';
-                e.currentTarget.style.transform = 'none';
               }}
             >
               <span>Start Free</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg className="btn-arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14" />
                 <path d="m12 5 7 7-7 7" />
               </svg>
@@ -385,8 +305,148 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Animated Liquid Wave & Marquee Background Styles */}
+      {/* Interactive Micro-animations, Liquid Waves & Styles */}
       <style>{`
+        /* 1. Navbar Menu Items Hover Animation */
+        .nav-menu-link {
+          position: relative;
+          color: #475569;
+          font-size: 14.5px;
+          font-weight: 500;
+          padding: 8px 16px;
+          border-radius: 12px;
+          text-decoration: none;
+          cursor: pointer;
+          transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+          display: inline-flex;
+          align-items: center;
+          user-select: none;
+        }
+        .nav-menu-link:hover {
+          color: #2563eb;
+          background: rgba(37, 99, 235, 0.08);
+          transform: translateY(-1.5px);
+        }
+        .nav-menu-link:active {
+          transform: translateY(0) scale(0.97);
+        }
+        .nav-menu-link::after {
+          content: '';
+          position: absolute;
+          bottom: 3px;
+          left: 50%;
+          width: 0;
+          height: 2px;
+          background: #2563eb;
+          border-radius: 999px;
+          transform: translateX(-50%);
+          transition: width 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .nav-menu-link:hover::after {
+          width: 55%;
+        }
+
+        /* 2. Global Button Animations */
+        .btn-brand-primary {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: #2563eb;
+          color: #ffffff;
+          border: none;
+          border-radius: 12px;
+          cursor: pointer;
+          font-weight: 600;
+          box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+          transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+          user-select: none;
+          position: relative;
+        }
+        .btn-brand-primary:hover {
+          background: #1d4ed8;
+          transform: translateY(-2px) scale(1.02);
+          box-shadow: 0 10px 28px -4px rgba(37, 99, 235, 0.55);
+        }
+        .btn-brand-primary:active {
+          transform: translateY(0) scale(0.98);
+        }
+        .btn-brand-primary .btn-arrow-icon {
+          transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-brand-primary:hover .btn-arrow-icon {
+          transform: translateX(4px);
+        }
+
+        .btn-brand-secondary {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: #ffffff;
+          color: #2563eb;
+          border: 1.5px solid #dbeafe;
+          border-radius: 12px;
+          cursor: pointer;
+          font-weight: 600;
+          box-shadow: 0 2px 6px rgba(37, 99, 235, 0.08);
+          transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+          user-select: none;
+        }
+        .btn-brand-secondary:hover {
+          background: #eff6ff;
+          border-color: #93c5fd;
+          transform: translateY(-2px) scale(1.02);
+          box-shadow: 0 8px 20px -4px rgba(37, 99, 235, 0.18);
+        }
+        .btn-brand-secondary:active {
+          transform: translateY(0) scale(0.98);
+        }
+
+        .btn-cta-banner {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: #ffffff;
+          color: #1d4ed8;
+          border: none;
+          border-radius: 12px;
+          cursor: pointer;
+          font-weight: 700;
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+          transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+          user-select: none;
+        }
+        .btn-cta-banner:hover {
+          background: #eff6ff;
+          color: #1e40af;
+          transform: translateY(-2px) scale(1.025);
+          box-shadow: 0 12px 36px rgba(255, 255, 255, 0.3), 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        .btn-cta-banner .cta-arrow {
+          transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-cta-banner:hover .cta-arrow {
+          transform: translateX(4px);
+        }
+        .btn-cta-banner:active {
+          transform: translateY(0) scale(0.98);
+        }
+
+        /* 3. Footer Links Hover Animation */
+        .footer-nav-link {
+          color: #64748b;
+          text-decoration: none;
+          font-size: 14px;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+          width: fit-content;
+        }
+        .footer-nav-link:hover {
+          color: #2563eb;
+          transform: translateX(4px);
+        }
+
         @keyframes liquidFlowLeft {
           0% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
           50% { transform: translate3d(-35px, 25px, 0) scale(1.08) rotate(3deg); }
@@ -575,72 +635,32 @@ export default function LandingPage() {
             All your customer data, tasks, and conversations — organized in one calm, fast workspace your whole team will actually use.
           </Typography.Paragraph>
 
-          {/* Relatik Hero CTA Buttons */}
-          <Flex justify="center" gap={12} wrap="wrap" className="hero-fade-item-2" style={{ marginBottom: 26 }}>
+          {/* Relatik Hero CTA Buttons with Dynamic Hover Animations */}
+          <Flex justify="center" gap={14} wrap="wrap" className="hero-fade-item-2" style={{ marginBottom: 26 }}>
             <button
               onClick={() => nav('/login?mode=signup')}
+              className="btn-brand-primary"
               style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 8,
-                background: '#2563eb',
-                color: '#ffffff',
-                border: 'none',
-                borderRadius: 12,
-                padding: '12px 24px',
-                height: 46,
-                fontSize: 14.5,
-                fontWeight: 600,
-                cursor: 'pointer',
-                boxShadow: '0 8px 24px -4px rgba(37, 99, 235, 0.45), 0 2px 6px rgba(37, 99, 235, 0.2)',
-                transition: 'all 0.18s ease',
+                padding: '13px 26px',
+                height: 48,
+                fontSize: 15,
                 fontFamily: 'inherit',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#1d4ed8';
-                e.currentTarget.style.boxShadow = '0 10px 28px -4px rgba(37, 99, 235, 0.55)';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = '#2563eb';
-                e.currentTarget.style.boxShadow = '0 8px 24px -4px rgba(37, 99, 235, 0.45), 0 2px 6px rgba(37, 99, 235, 0.2)';
-                e.currentTarget.style.transform = 'none';
               }}
             >
               <span>Start free trial</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg className="btn-arrow-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14" />
                 <path d="m12 5 7 7-7 7" />
               </svg>
             </button>
             <button
               onClick={() => scrollTo('pricing')}
+              className="btn-brand-secondary"
               style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 8,
-                background: '#ffffff',
-                color: '#2563eb',
-                border: '1.5px solid #dbeafe',
-                borderRadius: 12,
-                padding: '12px 24px',
-                height: 46,
-                fontSize: 14.5,
-                fontWeight: 600,
-                cursor: 'pointer',
-                boxShadow: '0 2px 6px rgba(37, 99, 235, 0.08)',
-                transition: 'all 0.15s ease',
+                padding: '13px 26px',
+                height: 48,
+                fontSize: 15,
                 fontFamily: 'inherit',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = '#93c5fd';
-                e.currentTarget.style.background = '#eff6ff';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = '#dbeafe';
-                e.currentTarget.style.background = '#ffffff';
-                e.currentTarget.style.transform = 'none';
               }}
             >
               Book a demo
@@ -2319,7 +2339,7 @@ export default function LandingPage() {
                 Everything you need to know about Chatral. Can’t find what you’re looking for? Our team is happy to help.
               </Typography.Paragraph>
 
-              {/* Contact us Button */}
+              {/* Contact us Button with Dynamic Hover Animation */}
               <button
                 onClick={() => {
                   if (typeof window !== 'undefined' && window.LiveChat) {
@@ -2328,31 +2348,11 @@ export default function LandingPage() {
                     scrollTo('pricing');
                   }
                 }}
+                className="btn-brand-secondary"
                 style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  background: '#eff6ff',
-                  color: '#2563eb',
-                  border: '1.5px solid #bfdbfe',
-                  borderRadius: 12,
-                  padding: '11px 24px',
-                  fontSize: 14,
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  boxShadow: '0 2px 6px rgba(37, 99, 235, 0.08)',
-                  transition: 'all 0.15s ease',
+                  padding: '12px 24px',
+                  fontSize: 14.5,
                   fontFamily: 'inherit',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = '#dbeafe';
-                  e.currentTarget.style.borderColor = '#93c5fd';
-                  e.currentTarget.style.transform = 'translateY(-1px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = '#eff6ff';
-                  e.currentTarget.style.borderColor = '#bfdbfe';
-                  e.currentTarget.style.transform = 'none';
                 }}
               >
                 Contact us
@@ -2595,14 +2595,20 @@ export default function LandingPage() {
                   <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Standard Web Chat Widget</div>
                   <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> "Powered by Chatral" Badge</div>
                 </div>
-                <Button
-                  block
-                  size="middle"
+                <button
                   onClick={() => nav('/login?mode=signup')}
-                  style={{ background: '#eff6ff', borderColor: '#bfdbfe', color: '#2563eb', fontWeight: 600, height: 44, borderRadius: 10, fontSize: 13.5 }}
+                  className="btn-brand-secondary"
+                  style={{
+                    width: '100%',
+                    justifyContent: 'center',
+                    height: 44,
+                    borderRadius: 10,
+                    fontSize: 13.5,
+                    fontFamily: 'inherit',
+                  }}
                 >
                   Start 7-Day Free Trial
-                </Button>
+                </button>
                 <div style={{ textAlign: 'center', fontSize: 11.5, color: '#9aa0ac', marginTop: 10 }}>
                   No credit card required
                 </div>
@@ -2662,23 +2668,20 @@ export default function LandingPage() {
                   <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> <b>Remove "Powered by Chatral" Badge</b></div>
                   <div><CheckOutlined style={{ color: '#2b7fff', marginRight: 8 }} /> Priority 24/7 Support</div>
                 </div>
-                <Button
-                  type="primary"
-                  block
-                  size="middle"
+                <button
                   onClick={() => nav('/login?mode=signup')}
+                  className="btn-brand-primary"
                   style={{
-                    background: '#2b7fff',
-                    border: 'none',
-                    fontWeight: 600,
+                    width: '100%',
+                    justifyContent: 'center',
                     height: 44,
                     borderRadius: 10,
                     fontSize: 13.5,
-                    boxShadow: '0 4px 14px rgba(43, 127, 255, 0.25)',
+                    fontFamily: 'inherit',
                   }}
                 >
                   Start 7-Day Free Trial
-                </Button>
+                </button>
                 <div style={{ textAlign: 'center', fontSize: 11.5, color: '#9aa0ac', marginTop: 10 }}>
                   Includes 7-day free trial • Cancel anytime
                 </div>
@@ -2745,43 +2748,27 @@ export default function LandingPage() {
 
           <button
             onClick={() => nav('/login?mode=signup')}
+            className="btn-cta-banner"
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              background: '#ffffff',
-              color: '#1d4ed8',
-              border: 'none',
-              borderRadius: 12,
-              padding: '13px 28px',
-              fontSize: 14.5,
-              fontWeight: 700,
-              cursor: 'pointer',
-              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
-              transition: 'all 0.15s ease',
+              padding: '14px 30px',
+              fontSize: 15,
               fontFamily: 'inherit',
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-1px)';
-              e.currentTarget.style.background = '#eff6ff';
-              e.currentTarget.style.color = '#1e40af';
-              e.currentTarget.style.boxShadow = '0 8px 24px rgba(255, 255, 255, 0.25)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'none';
-              e.currentTarget.style.background = '#ffffff';
-              e.currentTarget.style.color = '#1d4ed8';
-              e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.25)';
-            }}
           >
-            <span style={{ fontSize: 16 }}>→</span>
+            <span className="cta-arrow" style={{ fontSize: 16 }}>→</span>
             <span>Start Free Trial</span>
           </button>
         </div>
       </section>
 
-      {/* 10. Relatik Signature Footer with Official Chatral Logo */}
-      <footer style={{ background: '#ffffff', borderTop: '1px solid #ebecee', padding: isMobile ? '52px 20px 32px' : '68px 24px 36px' }}>
+      {/* 10. Relatik Signature Footer with Official Chatral Logo - Spacious & Interactive */}
+      <footer
+        style={{
+          background: 'linear-gradient(180deg, #ffffff 0%, #f8faff 100%)',
+          borderTop: '1px solid #eef2f6',
+          padding: isMobile ? '64px 20px 40px' : '96px 32px 52px',
+        }}
+      >
         <div style={{ maxWidth: 1180, margin: '0 auto' }}>
           {/* Top Row: Brand on Left, 3 Nav Columns on Right */}
           <div
@@ -2790,16 +2777,59 @@ export default function LandingPage() {
               flexDirection: isMobile ? 'column' : 'row',
               justifyContent: 'space-between',
               alignItems: 'flex-start',
-              gap: isMobile ? 36 : 48,
+              gap: isMobile ? 40 : 64,
             }}
           >
-            {/* Left Column: Official Chatral Brand Logo + Tagline */}
-            <div style={{ maxWidth: 320 }}>
+            {/* Left Column: Official Chatral Brand Logo + Tagline + Live System Status */}
+            <div style={{ maxWidth: 360 }}>
               <a href="/" onClick={handleLogoClick} style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', cursor: 'pointer' }}>
-                <ChatralFullLogo height={isMobile ? 30 : 34} dark={false} />
+                <ChatralFullLogo height={isMobile ? 32 : 38} dark={false} />
               </a>
-              <div style={{ color: '#6b707c', fontSize: 14, lineHeight: 1.55, marginTop: 16 }}>
-                The simple live chat for teams that care<br />about relationships.
+              <div style={{ color: '#64748b', fontSize: 14.5, lineHeight: 1.6, marginTop: 18 }}>
+                The calm, fast customer messaging and live chat platform built for teams that care about relationships.
+              </div>
+
+              {/* Live Operational Status Badge */}
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: '6px 14px',
+                  background: '#f0fdf4',
+                  border: '1px solid #bbf7d0',
+                  borderRadius: 999,
+                  marginTop: 22,
+                  fontSize: 12.5,
+                  fontWeight: 600,
+                  color: '#15803d',
+                }}
+              >
+                <span style={{ position: 'relative', display: 'flex', height: 8, width: 8 }}>
+                  <span
+                    style={{
+                      position: 'absolute',
+                      display: 'inline-flex',
+                      height: '100%',
+                      width: '100%',
+                      borderRadius: '50%',
+                      background: '#22c55e',
+                      opacity: 0.75,
+                      animation: 'chatralPing 1.8s cubic-bezier(0, 0, 0.2, 1) infinite',
+                    }}
+                  />
+                  <span
+                    style={{
+                      position: 'relative',
+                      display: 'inline-flex',
+                      borderRadius: '50%',
+                      height: 8,
+                      width: 8,
+                      background: '#16a34a',
+                    }}
+                  />
+                </span>
+                <span>All systems operational</span>
               </div>
             </div>
 
@@ -2807,90 +2837,56 @@ export default function LandingPage() {
             <div
               style={{
                 display: 'flex',
-                gap: isMobile ? 36 : 80,
+                gap: isMobile ? 40 : 96,
                 flexWrap: 'wrap',
               }}
             >
               {/* Product */}
-              <div style={{ minWidth: 105 }}>
-                <div style={{ fontWeight: 600, color: '#0c0d10', fontSize: 14.5, marginBottom: 16 }}>Product</div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 11, fontSize: 14 }}>
-                  <a
-                    onClick={() => scrollTo('features')}
-                    style={{ color: '#5b5f6b', cursor: 'pointer', textDecoration: 'none', transition: 'color 0.15s ease' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = '#0c0d10')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = '#5b5f6b')}
-                  >
+              <div style={{ minWidth: 120 }}>
+                <div style={{ fontWeight: 700, color: '#0f172a', fontSize: 12, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 18 }}>
+                  Product
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 13 }}>
+                  <a onClick={() => scrollTo('features')} className="footer-nav-link">
                     Features
                   </a>
-                  <a
-                    onClick={() => scrollTo('how-it-works')}
-                    style={{ color: '#5b5f6b', cursor: 'pointer', textDecoration: 'none', transition: 'color 0.15s ease' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = '#0c0d10')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = '#5b5f6b')}
-                  >
+                  <a onClick={() => scrollTo('how-it-works')} className="footer-nav-link">
                     How it works
                   </a>
-                  <a
-                    onClick={() => scrollTo('pricing')}
-                    style={{ color: '#5b5f6b', cursor: 'pointer', textDecoration: 'none', transition: 'color 0.15s ease' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = '#0c0d10')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = '#5b5f6b')}
-                  >
+                  <a onClick={() => scrollTo('pricing')} className="footer-nav-link">
                     Pricing
                   </a>
-                  <a
-                    onClick={() => scrollTo('faq')}
-                    style={{ color: '#5b5f6b', cursor: 'pointer', textDecoration: 'none', transition: 'color 0.15s ease' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = '#0c0d10')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = '#5b5f6b')}
-                  >
+                  <a onClick={() => scrollTo('faq')} className="footer-nav-link">
                     FAQ
                   </a>
                 </div>
               </div>
 
               {/* Company */}
-              <div style={{ minWidth: 105 }}>
-                <div style={{ fontWeight: 600, color: '#0c0d10', fontSize: 14.5, marginBottom: 16 }}>Company</div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 11, fontSize: 14 }}>
-                  <a
-                    onClick={() => scrollTo('testimonials')}
-                    style={{ color: '#5b5f6b', cursor: 'pointer', textDecoration: 'none', transition: 'color 0.15s ease' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = '#0c0d10')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = '#5b5f6b')}
-                  >
+              <div style={{ minWidth: 120 }}>
+                <div style={{ fontWeight: 700, color: '#0f172a', fontSize: 12, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 18 }}>
+                  Company
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 13 }}>
+                  <a onClick={() => scrollTo('testimonials')} className="footer-nav-link">
                     Testimonials
                   </a>
-                  <a
-                    href="mailto:digiscaleinfotech@gmail.com"
-                    style={{ color: '#5b5f6b', textDecoration: 'none', transition: 'color 0.15s ease' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = '#0c0d10')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = '#5b5f6b')}
-                  >
-                    Contact
+                  <a href="mailto:digiscaleinfotech@gmail.com" className="footer-nav-link">
+                    Contact team
                   </a>
                 </div>
               </div>
 
               {/* Legal */}
-              <div style={{ minWidth: 105 }}>
-                <div style={{ fontWeight: 600, color: '#0c0d10', fontSize: 14.5, marginBottom: 16 }}>Legal</div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 11, fontSize: 14 }}>
-                  <Link
-                    to="/privacy"
-                    style={{ color: '#5b5f6b', textDecoration: 'none', transition: 'color 0.15s ease' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = '#0c0d10')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = '#5b5f6b')}
-                  >
+              <div style={{ minWidth: 120 }}>
+                <div style={{ fontWeight: 700, color: '#0f172a', fontSize: 12, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 18 }}>
+                  Legal
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 13 }}>
+                  <Link to="/privacy" className="footer-nav-link">
                     Privacy policy
                   </Link>
-                  <Link
-                    to="/terms"
-                    style={{ color: '#5b5f6b', textDecoration: 'none', transition: 'color 0.15s ease' }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = '#0c0d10')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = '#5b5f6b')}
-                  >
+                  <Link to="/terms" className="footer-nav-link">
                     Terms of service
                   </Link>
                 </div>
@@ -2899,51 +2895,112 @@ export default function LandingPage() {
           </div>
 
           {/* Bottom Divider */}
-          <div style={{ borderTop: '1px solid #ebecee', margin: '44px 0 24px' }} />
+          <div style={{ borderTop: '1px solid #eef2f6', margin: '52px 0 28px' }} />
 
-          {/* Bottom Copyright & Social Icons */}
+          {/* Bottom Copyright, Back to Top, and Social Icons */}
           <div
             style={{
               display: 'flex',
               flexDirection: isMobile ? 'column' : 'row',
               justifyContent: 'space-between',
               alignItems: isMobile ? 'flex-start' : 'center',
-              gap: 14,
+              gap: 18,
             }}
           >
-            <div style={{ color: '#8c92a4', fontSize: 13, fontWeight: 400 }}>
-              &copy; {new Date().getFullYear()} Chatral. All rights reserved.
+            <div style={{ color: '#94a3b8', fontSize: 13, fontWeight: 400 }}>
+              &copy; {new Date().getFullYear()} Chatral. All rights reserved. • Built for high-growth modern teams.
             </div>
 
-            {/* Social Icons (Instagram and LinkedIn) */}
-            <div style={{ display: 'flex', gap: 18, alignItems: 'center' }}>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Instagram"
-                style={{ color: '#717684', display: 'flex', alignItems: 'center', transition: 'color 0.15s ease' }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = '#0c0d10')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = '#717684')}
+            <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
+              {/* Back to top button */}
+              <button
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#64748b',
+                  fontSize: 13,
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  padding: '4px 8px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 4,
+                  transition: 'color 0.15s ease',
+                  fontFamily: 'inherit',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = '#2563eb')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = '#64748b')}
               >
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                </svg>
-              </a>
+                Back to top ↑
+              </button>
 
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="LinkedIn"
-                style={{ color: '#717684', display: 'flex', alignItems: 'center', transition: 'color 0.15s ease' }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = '#0c0d10')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = '#717684')}
-              >
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 1.6 1.6 1.6 1.6 0 0 0-1.6-1.6z" />
-                </svg>
-              </a>
+              {/* Social Icons (Instagram and LinkedIn) */}
+              <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Instagram"
+                  style={{
+                    color: '#64748b',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: 32,
+                    height: 32,
+                    borderRadius: 8,
+                    background: '#f1f5f9',
+                    transition: 'all 0.18s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = '#e1306c';
+                    e.currentTarget.style.background = '#fdf2f8';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = '#64748b';
+                    e.currentTarget.style.background = '#f1f5f9';
+                    e.currentTarget.style.transform = 'none';
+                  }}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                  </svg>
+                </a>
+
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="LinkedIn"
+                  style={{
+                    color: '#64748b',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: 32,
+                    height: 32,
+                    borderRadius: 8,
+                    background: '#f1f5f9',
+                    transition: 'all 0.18s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = '#0a66c2';
+                    e.currentTarget.style.background = '#eff6ff';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = '#64748b';
+                    e.currentTarget.style.background = '#f1f5f9';
+                    e.currentTarget.style.transform = 'none';
+                  }}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 1.6 1.6 1.6 1.6 0 0 0-1.6-1.6z" />
+                  </svg>
+                </a>
+              </div>
             </div>
           </div>
         </div>
