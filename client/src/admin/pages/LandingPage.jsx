@@ -66,7 +66,14 @@ export default function LandingPage() {
   const [isWidgetOpen, setIsWidgetOpen] = useState(false);
 
   // Contact Form state & submission handler
-  const [contactForm, setContactForm] = useState({ name: '', email: '', company: '', message: '' });
+  const [contactForm, setContactForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    company: '',
+    topic: 'Schedule a Live Demo',
+    message: '',
+  });
   const [contactSubmitted, setContactSubmitted] = useState(false);
   const [contactSubmitting, setContactSubmitting] = useState(false);
 
@@ -79,7 +86,14 @@ export default function LandingPage() {
     setTimeout(() => {
       setContactSubmitting(false);
       setContactSubmitted(true);
-      setContactForm({ name: '', email: '', company: '', message: '' });
+      setContactForm({
+        name: '',
+        email: '',
+        phone: '',
+        company: '',
+        topic: 'Schedule a Live Demo',
+        message: '',
+      });
     }, 500);
   };
 
@@ -2799,7 +2813,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 9. Contact Us Form Section */}
+      {/* 9. Contact Us Form Section - Clean Minimalist Info & Expanded Form Fields */}
       <section
         id="contact"
         style={{
@@ -2810,8 +2824,8 @@ export default function LandingPage() {
       >
         <div style={{ maxWidth: 1120, margin: '0 auto' }}>
           <Row gutter={[isMobile ? 32 : 56, 32]} align="top">
-            {/* Left Column: Context, Reassurance & Direct Contacts */}
-            <Col xs={24} lg={11}>
+            {/* Left Column: Context & Minimalist Direct Contacts (NO BOXES) */}
+            <Col xs={24} lg={10}>
               <div
                 style={{
                   display: 'inline-flex',
@@ -2821,12 +2835,12 @@ export default function LandingPage() {
                   background: '#eaf2ff',
                   border: '1px solid rgba(43, 127, 255, 0.2)',
                   borderRadius: 999,
-                  marginBottom: 18,
+                  marginBottom: 16,
                 }}
               >
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#2563eb' }} />
                 <span style={{ color: '#2563eb', fontSize: 11, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                  Get in touch
+                  Contact Us
                 </span>
               </div>
 
@@ -2834,61 +2848,51 @@ export default function LandingPage() {
                 level={2}
                 style={{
                   color: '#0c0d10',
-                  fontSize: isMobile ? 30 : 42,
+                  fontSize: isMobile ? 32 : 44,
                   fontWeight: 800,
                   letterSpacing: '-0.035em',
                   lineHeight: 1.15,
-                  margin: '0 0 16px',
+                  margin: '0 0 12px',
                 }}
               >
-                Let’s talk about growing your customer conversations.
+                Let’s talk.
               </Typography.Title>
 
               <Typography.Paragraph
                 style={{
                   color: '#5b5f6b',
-                  fontSize: isMobile ? 15 : 16,
-                  lineHeight: 1.6,
+                  fontSize: isMobile ? 15 : 15.5,
+                  lineHeight: 1.55,
                   margin: '0 0 32px',
                   fontWeight: 400,
+                  maxWidth: 380,
                 }}
               >
-                Have questions about custom plans, installation, or high-volume stores?
-                Send us a note and our team will get back to you within a few hours.
+                Have questions or need a custom plan? Reach out anytime — we reply in under 2 hours.
               </Typography.Paragraph>
 
-              {/* Direct Info Cards */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 14,
-                    padding: '14px 18px',
-                    background: '#ffffff',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: 14,
-                    boxShadow: '0 2px 8px rgba(37, 99, 235, 0.04)',
-                  }}
-                >
+              {/* Direct Info List - Pure Minimalist Typography (No Boxes / No Borders) */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                   <div
                     style={{
-                      width: 40,
-                      height: 40,
+                      width: 38,
+                      height: 38,
                       borderRadius: 10,
                       background: '#eff6ff',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       color: '#2563eb',
-                      fontSize: 18,
+                      fontSize: 16,
+                      flexShrink: 0,
                     }}
                   >
                     ✉️
                   </div>
                   <div>
-                    <div style={{ fontSize: 12, fontWeight: 600, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
-                      Direct Email
+                    <div style={{ fontSize: 11.5, fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                      Email
                     </div>
                     <a
                       href="mailto:digiscaleinfotech@gmail.com"
@@ -2901,35 +2905,25 @@ export default function LandingPage() {
                   </div>
                 </div>
 
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 14,
-                    padding: '14px 18px',
-                    background: '#ffffff',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: 14,
-                    boxShadow: '0 2px 8px rgba(37, 99, 235, 0.04)',
-                  }}
-                >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                   <div
                     style={{
-                      width: 40,
-                      height: 40,
+                      width: 38,
+                      height: 38,
                       borderRadius: 10,
                       background: '#eff6ff',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       color: '#2563eb',
-                      fontSize: 18,
+                      fontSize: 16,
+                      flexShrink: 0,
                     }}
                   >
                     ⚡
                   </div>
                   <div>
-                    <div style={{ fontSize: 12, fontWeight: 600, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+                    <div style={{ fontSize: 11.5, fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                       Response Time
                     </div>
                     <div style={{ fontSize: 14.5, fontWeight: 600, color: '#0c0d10' }}>
@@ -2938,35 +2932,25 @@ export default function LandingPage() {
                   </div>
                 </div>
 
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 14,
-                    padding: '14px 18px',
-                    background: '#ffffff',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: 14,
-                    boxShadow: '0 2px 8px rgba(37, 99, 235, 0.04)',
-                  }}
-                >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                   <div
                     style={{
-                      width: 40,
-                      height: 40,
+                      width: 38,
+                      height: 38,
                       borderRadius: 10,
                       background: '#eff6ff',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       color: '#2563eb',
-                      fontSize: 18,
+                      fontSize: 16,
+                      flexShrink: 0,
                     }}
                   >
                     📍
                   </div>
                   <div>
-                    <div style={{ fontSize: 12, fontWeight: 600, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+                    <div style={{ fontSize: 11.5, fontWeight: 600, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                       Location
                     </div>
                     <div style={{ fontSize: 14.5, fontWeight: 600, color: '#0c0d10' }}>
@@ -2977,15 +2961,15 @@ export default function LandingPage() {
               </div>
             </Col>
 
-            {/* Right Column: Clean, Interactive Contact Form Card */}
-            <Col xs={24} lg={13}>
+            {/* Right Column: Clean, Interactive Contact Form Card with Expanded Fields */}
+            <Col xs={24} lg={14}>
               <div
                 style={{
                   background: '#ffffff',
                   border: '1px solid #e2e8f0',
                   borderRadius: 24,
-                  padding: isMobile ? '32px 20px' : '44px 38px',
-                  boxShadow: '0 20px 48px -12px rgba(37, 99, 235, 0.1)',
+                  padding: isMobile ? '28px 18px' : '38px 34px',
+                  boxShadow: '0 20px 48px -12px rgba(37, 99, 235, 0.08)',
                   position: 'relative',
                 }}
               >
@@ -3023,45 +3007,46 @@ export default function LandingPage() {
                   </div>
                 ) : (
                   <form onSubmit={handleContactSubmit}>
-                    <div style={{ marginBottom: 20 }}>
-                      <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#334155', marginBottom: 6 }}>
-                        Full Name <span style={{ color: '#ef4444' }}>*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="John Doe"
-                        value={contactForm.name}
-                        onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                        style={{
-                          width: '100%',
-                          padding: '11px 14px',
-                          borderRadius: 10,
-                          border: '1.5px solid #e2e8f0',
-                          background: '#f8fafc',
-                          fontSize: 14,
-                          fontFamily: 'inherit',
-                          outline: 'none',
-                          transition: 'all 0.18s ease',
-                          color: '#0f172a',
-                        }}
-                        onFocus={(e) => {
-                          e.target.style.background = '#ffffff';
-                          e.target.style.borderColor = '#2563eb';
-                          e.target.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.12)';
-                        }}
-                        onBlur={(e) => {
-                          e.target.style.background = '#f8fafc';
-                          e.target.style.borderColor = '#e2e8f0';
-                          e.target.style.boxShadow = 'none';
-                        }}
-                      />
-                    </div>
-
-                    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 16, marginBottom: 20 }}>
+                    {/* Row 1: Full Name & Work Email */}
+                    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 16, marginBottom: 18 }}>
                       <div>
                         <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#334155', marginBottom: 6 }}>
-                          Email Address <span style={{ color: '#ef4444' }}>*</span>
+                          Full Name <span style={{ color: '#ef4444' }}>*</span>
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="John Doe"
+                          value={contactForm.name}
+                          onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                          style={{
+                            width: '100%',
+                            padding: '11px 14px',
+                            borderRadius: 10,
+                            border: '1.5px solid #e2e8f0',
+                            background: '#f8fafc',
+                            fontSize: 14,
+                            fontFamily: 'inherit',
+                            outline: 'none',
+                            transition: 'all 0.18s ease',
+                            color: '#0f172a',
+                          }}
+                          onFocus={(e) => {
+                            e.target.style.background = '#ffffff';
+                            e.target.style.borderColor = '#2563eb';
+                            e.target.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.12)';
+                          }}
+                          onBlur={(e) => {
+                            e.target.style.background = '#f8fafc';
+                            e.target.style.borderColor = '#e2e8f0';
+                            e.target.style.boxShadow = 'none';
+                          }}
+                        />
+                      </div>
+
+                      <div>
+                        <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#334155', marginBottom: 6 }}>
+                          Work Email <span style={{ color: '#ef4444' }}>*</span>
                         </label>
                         <input
                           type="email"
@@ -3093,13 +3078,51 @@ export default function LandingPage() {
                           }}
                         />
                       </div>
+                    </div>
+
+                    {/* Row 2: Phone Number & Company/Store */}
+                    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 16, marginBottom: 18 }}>
                       <div>
                         <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#334155', marginBottom: 6 }}>
-                          Company / Website (optional)
+                          Phone Number <span style={{ fontSize: 11, fontWeight: 400, color: '#94a3b8' }}>(optional)</span>
+                        </label>
+                        <input
+                          type="tel"
+                          placeholder="+91 98765 43210"
+                          value={contactForm.phone}
+                          onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })}
+                          style={{
+                            width: '100%',
+                            padding: '11px 14px',
+                            borderRadius: 10,
+                            border: '1.5px solid #e2e8f0',
+                            background: '#f8fafc',
+                            fontSize: 14,
+                            fontFamily: 'inherit',
+                            outline: 'none',
+                            transition: 'all 0.18s ease',
+                            color: '#0f172a',
+                          }}
+                          onFocus={(e) => {
+                            e.target.style.background = '#ffffff';
+                            e.target.style.borderColor = '#2563eb';
+                            e.target.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.12)';
+                          }}
+                          onBlur={(e) => {
+                            e.target.style.background = '#f8fafc';
+                            e.target.style.borderColor = '#e2e8f0';
+                            e.target.style.boxShadow = 'none';
+                          }}
+                        />
+                      </div>
+
+                      <div>
+                        <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#334155', marginBottom: 6 }}>
+                          Company / Website <span style={{ fontSize: 11, fontWeight: 400, color: '#94a3b8' }}>(optional)</span>
                         </label>
                         <input
                           type="text"
-                          placeholder="acme.com"
+                          placeholder="acmestore.com"
                           value={contactForm.company}
                           onChange={(e) => setContactForm({ ...contactForm, company: e.target.value })}
                           style={{
@@ -3128,14 +3151,59 @@ export default function LandingPage() {
                       </div>
                     </div>
 
-                    <div style={{ marginBottom: 24 }}>
+                    {/* Row 3: Topic / Inquiry Dropdown */}
+                    <div style={{ marginBottom: 18 }}>
+                      <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#334155', marginBottom: 6 }}>
+                        What can we help you with?
+                      </label>
+                      <select
+                        value={contactForm.topic}
+                        onChange={(e) => setContactForm({ ...contactForm, topic: e.target.value })}
+                        style={{
+                          width: '100%',
+                          padding: '11px 14px',
+                          borderRadius: 10,
+                          border: '1.5px solid #e2e8f0',
+                          background: '#f8fafc',
+                          fontSize: 14,
+                          fontFamily: 'inherit',
+                          outline: 'none',
+                          color: '#0f172a',
+                          cursor: 'pointer',
+                          appearance: 'none',
+                          WebkitAppearance: 'none',
+                          backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
+                          backgroundRepeat: 'no-repeat',
+                          backgroundPosition: 'right 14px center',
+                          transition: 'all 0.18s ease',
+                        }}
+                        onFocus={(e) => {
+                          e.target.style.background = '#ffffff';
+                          e.target.style.borderColor = '#2563eb';
+                          e.target.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.12)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.background = '#f8fafc';
+                          e.target.style.borderColor = '#e2e8f0';
+                          e.target.style.boxShadow = 'none';
+                        }}
+                      >
+                        <option value="Schedule a Live Demo">Schedule a Live Demo</option>
+                        <option value="Custom Plan & Pricing">Custom Plan & Pricing</option>
+                        <option value="Shopify & Integration Setup">Shopify & Integration Setup</option>
+                        <option value="General Support">General Support</option>
+                      </select>
+                    </div>
+
+                    {/* Row 4: Message */}
+                    <div style={{ marginBottom: 22 }}>
                       <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#334155', marginBottom: 6 }}>
                         Your Message <span style={{ color: '#ef4444' }}>*</span>
                       </label>
                       <textarea
                         required
-                        rows={4}
-                        placeholder="Tell us what you need help with..."
+                        rows={3}
+                        placeholder="Tell us what you're looking to achieve with Chatral..."
                         value={contactForm.message}
                         onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                         style={{
@@ -3164,6 +3232,7 @@ export default function LandingPage() {
                       />
                     </div>
 
+                    {/* Row 5: Submit Button with Kinetic Roll */}
                     <button
                       type="submit"
                       disabled={contactSubmitting}
