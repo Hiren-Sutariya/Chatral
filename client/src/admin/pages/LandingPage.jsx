@@ -200,11 +200,20 @@ export default function LandingPage() {
 
   const scrollTo = (id) => {
     const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    if (el) {
+      const navOffset = 78;
+      const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
+      const offsetPosition = elementPosition - navOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
   };
 
   return (
     <div
+      className="page-smooth-fade"
       style={{
         background: '#f7f8fa',
         color: '#0c0d10',
@@ -442,6 +451,7 @@ export default function LandingPage() {
           
           {/* Relatik Top Pill Badge with 3 Overlapping Avatars */}
           <div
+            className="hero-fade-item-1"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -519,6 +529,7 @@ export default function LandingPage() {
           {/* Relatik Big Title in 2 Clean Lines */}
           <Typography.Title
             level={1}
+            className="hero-fade-item-1"
             style={{
               color: '#0c0d10',
               fontSize: isMobile ? 36 : 58,
@@ -534,6 +545,7 @@ export default function LandingPage() {
 
           {/* Relatik Subtitle in 2 Clean Lines */}
           <Typography.Paragraph
+            className="hero-fade-item-2"
             style={{
               color: '#5b5f6b',
               fontSize: isMobile ? 15 : 17,
@@ -547,7 +559,7 @@ export default function LandingPage() {
           </Typography.Paragraph>
 
           {/* Relatik Hero CTA Buttons */}
-          <Flex justify="center" gap={12} wrap="wrap" style={{ marginBottom: 26 }}>
+          <Flex justify="center" gap={12} wrap="wrap" className="hero-fade-item-2" style={{ marginBottom: 26 }}>
             <button
               onClick={() => nav('/login?mode=signup')}
               style={{
@@ -603,7 +615,7 @@ export default function LandingPage() {
           </Flex>
 
           {/* Relatik Trust Checkmarks */}
-          <Flex justify="center" gap={22} wrap="wrap" style={{ color: '#6b707c', fontSize: 13, fontWeight: 400 }}>
+          <Flex justify="center" gap={22} wrap="wrap" className="hero-fade-item-2" style={{ color: '#6b707c', fontSize: 13, fontWeight: 400 }}>
             <span>✓ No credit card required</span>
             <span>✓ 7-day free trial</span>
             <span>✓ Cancel anytime</span>
@@ -611,7 +623,7 @@ export default function LandingPage() {
         </div>
 
         {/* Hero Dashboard Showcase (Official Chatral Live Chat Platform UI) */}
-        <div style={{ maxWidth: 1080, margin: '48px auto 0' }}>
+        <div className="hero-fade-item-3" style={{ maxWidth: 1080, margin: '48px auto 0' }}>
           <div
             style={{
               background: '#ffffff',
@@ -2979,8 +2991,33 @@ export default function LandingPage() {
         </div>
       )}
 
-      {/* Global subtle float & pulse keyframes */}
+      {/* Global subtle float, pulse & smooth entrance keyframes */}
       <style>{`
+        html {
+          scroll-behavior: smooth;
+        }
+        section[id] {
+          scroll-margin-top: 86px;
+        }
+        .hero-fade-item-1 {
+          animation: heroFadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.04s both;
+        }
+        .hero-fade-item-2 {
+          animation: heroFadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+        }
+        .hero-fade-item-3 {
+          animation: heroFadeUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
+        }
+        @keyframes heroFadeUp {
+          from {
+            opacity: 0;
+            transform: translateY(14px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
         @keyframes chatralFloat {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-3px); }

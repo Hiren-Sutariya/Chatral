@@ -14,6 +14,7 @@ export default function TermsOfService() {
 
   return (
     <div
+      className="page-smooth-fade"
       style={{
         minHeight: '100vh',
         background: '#ffffff',
