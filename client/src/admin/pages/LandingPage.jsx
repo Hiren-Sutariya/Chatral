@@ -407,7 +407,7 @@ export default function LandingPage() {
       <section
         style={{
           position: 'relative',
-          padding: isMobile ? '56px 16px 40px' : '84px 24px 64px',
+          padding: isMobile ? '56px 16px 36px' : '84px 24px 52px',
           textAlign: 'center',
           overflow: 'hidden',
         }}
@@ -1435,7 +1435,7 @@ export default function LandingPage() {
       </section>
 
       {/* 3. Features Bento Grid (Exact Relatik 5-Card Bento Layout) */}
-      <section id="features" style={{ padding: isMobile ? '60px 16px' : '96px 24px', background: '#f7f8fa' }}>
+      <section id="features" style={{ padding: isMobile ? '36px 16px' : '52px 24px', background: '#f7f8fa' }}>
         <div style={{ maxWidth: 1080, margin: '0 auto' }}>
           
           {/* Header */}
@@ -1805,7 +1805,7 @@ export default function LandingPage() {
       </section>
 
       {/* 4. How It Works (Exact Relatik Design from Image 1) */}
-      <section id="how-it-works" style={{ padding: isMobile ? '60px 16px' : '96px 24px', background: '#ffffff', borderTop: '1px solid #e6e7eb' }}>
+      <section id="how-it-works" style={{ padding: isMobile ? '36px 16px' : '52px 24px', background: '#ffffff', borderTop: '1px solid #e6e7eb' }}>
         <div style={{ maxWidth: 1080, margin: '0 auto', textAlign: 'center' }}>
           
           {/* Header */}
@@ -1959,7 +1959,7 @@ export default function LandingPage() {
       </section>
 
       {/* 5. Testimonials (Exact Relatik Infinite Marquee Carousel from Image 2) */}
-      <section id="testimonials" style={{ padding: isMobile ? '60px 0' : '96px 0', background: '#ffffff', borderTop: '1px solid #e6e7eb', overflow: 'hidden' }}>
+      <section id="testimonials" style={{ padding: isMobile ? '36px 0' : '52px 0', background: '#ffffff', borderTop: '1px solid #e6e7eb', overflow: 'hidden' }}>
         <div style={{ maxWidth: 1080, margin: '0 auto', textAlign: 'center', padding: '0 24px', marginBottom: 44 }}>
           
           {/* Badge */}
@@ -2242,7 +2242,7 @@ export default function LandingPage() {
       </section>
 
       {/* 6. FAQ Section (Relatik Exact 2-Column Accordion from Image) */}
-      <section id="faq" style={{ padding: isMobile ? '60px 16px' : '96px 24px', background: '#f7f8fa', borderTop: '1px solid #e6e7eb' }}>
+      <section id="faq" style={{ padding: isMobile ? '36px 16px' : '52px 24px', background: '#f7f8fa', borderTop: '1px solid #e6e7eb' }}>
         <div style={{ maxWidth: 1080, margin: '0 auto' }}>
           <Row gutter={isMobile ? [0, 40] : [64, 32]} align="top">
             {/* Left Column: Badge, Heading, Subtitle & Button */}
@@ -2452,7 +2452,7 @@ export default function LandingPage() {
       </section>
 
       {/* 8. Pricing Plans (Relatik Exact Styling - 7-Day Free Trial + Starter Growth) */}
-      <section id="pricing" style={{ padding: '80px 24px', background: '#ffffff', borderTop: '1px solid #e6e7eb' }}>
+      <section id="pricing" style={{ padding: isMobile ? '36px 16px' : '52px 24px', background: '#ffffff', borderTop: '1px solid #e6e7eb' }}>
         <div style={{ maxWidth: 960, margin: '0 auto', textAlign: 'center' }}>
           
           <div
@@ -2657,7 +2657,7 @@ export default function LandingPage() {
       </section>
 
       {/* 9. Relatik Signature CTA Banner (Exact Match to Image 2) */}
-      <section style={{ padding: isMobile ? '40px 16px 70px' : '60px 24px 96px', background: '#f7f8fa' }}>
+      <section style={{ padding: isMobile ? '36px 16px 48px' : '52px 24px 64px', background: '#f7f8fa' }}>
         <div
           style={{
             maxWidth: 1040,
